@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">todo</string>
+
+    <string name="title_task">Tasks</string>
+    <string name="title_filter">Filter</string>
+    <string name="title_clear_completed">Clear Completed</string>
+    <string name="title_refresh">Refresh</string>
+
+</resources>

@@ -1,0 +1,143 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 27
+        versionCode 1
+        versionName "0.0.1"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled true
+    }
+/*    kapt {
+        generateStubs = true
+    }*/
+}
+
+dependencies {
+    //library
+    api fileTree(include: ['*.jar'], dir: 'libs')
+
+    //kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //android support
+    api 'com.android.support:multidex:1.0.3'
+    api 'com.android.support:design:27.1.1'
+    api 'com.android.support:support-v4:27.1.1'
+    api 'com.android.support:palette-v7:27.1.1'
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support:cardview-v7:27.1.1'
+    api 'com.android.support:recyclerview-v7:27.1.1'
+    api 'com.android.support:preference-v7:27.1.1'
+    api 'com.android.support:support-v13:27.1.1'
+    api 'com.android.support:preference-v14:27.1.1'
+    api 'com.android.support:support-vector-drawable:27.1.1'
+    api 'com.android.support:animated-vector-drawable:27.1.1'
+    api 'com.android.support:support-dynamic-animation:27.1.1'
+    api 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    //google
+    api 'com.google.guava:guava:24.1-android'
+    api 'com.google.code.findbugs:jsr305:3.0.2'
+    api 'com.google.code.gson:gson:2.8.2'
+
+    //android arch: lifecycle, room, navigation
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0-alpha1'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.0.0-alpha1'
+
+    implementation 'androidx.room:room-runtime:2.0.0-alpha1'
+    kapt 'androidx.room:room-compiler:2.0.0-alpha1'
+    implementation 'androidx.room:room-rxjava2:2.0.0-alpha1'
+    implementation 'androidx.room:room-guava:2.0.0-alpha1'
+
+/*    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha01'*/
+
+    //dagger core
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+    implementation 'com.google.dagger:dagger:2.16'
+
+    //dagger android
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
+    implementation 'com.google.dagger:dagger-android-support:2.16'
+    implementation 'com.google.dagger:dagger-android:2.16'
+
+    //rx
+    api 'io.reactivex.rxjava2:rxjava:2.1.12'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    //theme engine
+    implementation 'com.afollestad:aesthetic:0.4.7'
+
+    //fonts
+    api 'com.github.smart-fun:SmartFonts:1.0.4'
+
+    //shimmer
+    api 'io.supercharge:shimmerlayout:2.1.0'
+
+    //gradient
+    api 'com.dynamitechetan.flowinggradient:flowinggradient:1.1'
+
+    //stateful
+    api 'cz.kinst.jakub:android-stateful-layout-simple:2.0.7'
+
+    //fancy button
+    api 'com.rilixtech:materialfancybuttons:1.8.7'
+
+    //google progressbar
+    api 'com.jpardogo.googleprogressbar:library:1.2.0'
+
+    //expandable layout
+    api 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
+    //feedback
+    implementation 'com.webianks.library:easy-feedback:1.0.2'
+
+    //adapter
+    api 'eu.davidea:flexible-adapter:5.0.4'
+    api 'eu.davidea:flexible-adapter-ui:1.0.0-b4'
+    api 'eu.davidea:flexible-adapter-livedata:1.0.0-b2'
+    api 'eu.davidea:flexible-adapter-databinding:1.0.0-b3'
+}
