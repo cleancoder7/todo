@@ -13,10 +13,8 @@ import com.dreampany.frame.data.util.ViewUtil;
 import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
-import com.dreampany.todo.contract.TaskContract;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.databinding.FragmentHomeBinding;
-import com.dreampany.todo.presenter.TaskPresenter;
 import com.dreampany.todo.ui.activity.ToolsActivity;
 import com.dreampany.todo.ui.adapter.TaskAdapter;
 import com.dreampany.todo.ui.enums.UiSubtype;
@@ -35,11 +33,8 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 @ActivityScoped
 public class TasksFragment extends BaseMenuFragment implements
         View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener,
-        TaskContract.View {
+        SwipeRefreshLayout.OnRefreshListener {
 
-    @Inject
-    TaskPresenter presenter;
     private FragmentHomeBinding binding;
     private TaskAdapter adapter;
     private final int offset = 4;
@@ -62,7 +57,7 @@ public class TasksFragment extends BaseMenuFragment implements
     @Override
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
-        presenter.takeView(this);
+        //presenter.takeView(this);
         initView();
         initRecycler();
     }
@@ -83,7 +78,7 @@ public class TasksFragment extends BaseMenuFragment implements
 
     @Override
     protected void onStopUi() {
-        presenter.dropView();
+        //presenter.dropView();
     }
 
     @Override
@@ -97,71 +92,11 @@ public class TasksFragment extends BaseMenuFragment implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        presenter.result(requestCode, resultCode);
+        //presenter.result(requestCode, resultCode);
     }
 
     @Override
     public void onRefresh() {
-
-    }
-
-    @Override
-    public boolean isActive() {
-        return isAdded();
-    }
-
-    @Override
-    public void showLoadIndicator(boolean active) {
-
-    }
-
-    @Override
-    public void showLoadingTasksError() {
-
-    }
-
-    @Override
-    public void showTasks(List<Task> tasks) {
-
-    }
-
-    @Override
-    public void showTaskDetailsUi(String taskId) {
-
-    }
-
-    @Override
-    public void showTaskMarkedComplete() {
-
-    }
-
-    @Override
-    public void showTaskMarkedActive() {
-
-    }
-
-    @Override
-    public void showCompletedTasksCleared() {
-
-    }
-
-    @Override
-    public void showEmptyTasks() {
-
-    }
-
-    @Override
-    public void showEmptyActiveTasks() {
-
-    }
-
-    @Override
-    public void showEmptyCompletedTasks() {
-
-    }
-
-    @Override
-    public void showSuccessfullySavedMessage() {
 
     }
 

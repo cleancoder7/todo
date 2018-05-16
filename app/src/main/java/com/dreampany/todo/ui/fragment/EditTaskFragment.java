@@ -7,7 +7,6 @@ import android.view.View;
 import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
-import com.dreampany.todo.contract.EditTaskContract;
 import com.dreampany.todo.databinding.FragmentEditTaskBinding;
 
 import javax.inject.Inject;
@@ -21,11 +20,9 @@ import javax.inject.Inject;
 
 @ActivityScoped
 public class EditTaskFragment extends BaseMenuFragment
-        implements EditTaskContract.View, View.OnClickListener {
+        implements View.OnClickListener {
 
-//    private FragmentEditTaskBinding binding;
-    //@Inject
-    EditTaskContract.Presenter presenter;
+    private FragmentEditTaskBinding binding;
 
     @Inject
     public EditTaskFragment() {
@@ -45,13 +42,13 @@ public class EditTaskFragment extends BaseMenuFragment
     @Override
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
-        presenter.takeView(this);
+        //presenter.takeView(this);
         initView();
     }
 
     @Override
     protected void onStopUi() {
-        presenter.dropView();
+        //presenter.dropView();
     }
 
     @Override
@@ -63,24 +60,9 @@ public class EditTaskFragment extends BaseMenuFragment
         }
     }
 
-    @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    public void onSuccess() {
-
-    }
-
-    @Override
-    public void onError() {
-
-    }
-
     private void initView() {
         binding = (FragmentEditTaskBinding) super.binding;
-        //binding.fab.setOnClickListener(this);
+        binding.fab.setOnClickListener(this);
 
     }
 

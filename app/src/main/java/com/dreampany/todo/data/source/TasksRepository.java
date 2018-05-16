@@ -48,7 +48,6 @@ public class TasksRepository implements TasksDataSource {
     @Override
     public void loadTask(@NonNull String taskId, @NonNull Callback callback) {
 
-
     }
 
     @Override
