@@ -10,7 +10,6 @@ import java.util.List;
 public interface TaskContract {
 
     interface View extends BaseView<Presenter> {
-        boolean isActive();
 
         void showLoadIndicator(boolean active);
 

@@ -6,7 +6,6 @@ import com.dreampany.todo.data.enums.TaskFilterType;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TasksDataSource;
 import com.dreampany.todo.data.source.TasksRepository;
-import com.google.android.gms.common.util.DataUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public final class TaskPresenter implements TaskContract.Presenter {
 
     private final TasksRepository tasksRepository;
     @Nullable
-    private TaskContract.View taskView;
+    private TaskContract.View view;
     private TaskFilterType filter;
     private boolean firstLoad;
 
@@ -32,13 +31,13 @@ public final class TaskPresenter implements TaskContract.Presenter {
 
     @Override
     public void takeView(TaskContract.View view) {
-        this.taskView = view;
+        this.view = view;
         loadTasks(false);
     }
 
     @Override
     public void dropView() {
-        taskView = null;
+        view = null;
     }
 
     @Override
@@ -68,8 +67,8 @@ public final class TaskPresenter implements TaskContract.Presenter {
 
     private void loadTasks(boolean forceUpdate, boolean showLoadingUi) {
         if (showLoadingUi) {
-            if (taskView != null) {
-                taskView.showLoadIndicator(true);
+            if (view != null) {
+                view.showLoadIndicator(true);
             }
         }
         if (forceUpdate) {
@@ -99,12 +98,12 @@ public final class TaskPresenter implements TaskContract.Presenter {
                 }
 
                 //view may be unable to handle this updates
-                if (taskView == null || !taskView.isActive()) {
+                if (view == null || !view.isActive()) {
                     return;
                 }
                 if (showLoadingUi) {
-                    if (taskView != null) {
-                        taskView.showLoadIndicator(false);
+                    if (view != null) {
+                        view.showLoadIndicator(false);
                     }
                 }
                 processTasks(results);
@@ -118,10 +117,10 @@ public final class TaskPresenter implements TaskContract.Presenter {
             @Override
             public void onEmpty() {
                 //view may be unable to handle this updates
-                if (taskView == null || !taskView.isActive()) {
+                if (view == null || !view.isActive()) {
                     return;
                 }
-                taskView.showLoadingTasksError();
+                view.showLoadingTasksError();
             }
         };
         tasksRepository.loadTasks(callback);
@@ -131,25 +130,25 @@ public final class TaskPresenter implements TaskContract.Presenter {
         if (tasks.isEmpty()) {
             processEmptyTasks();
         } else {
-            if (taskView != null) {
-                taskView.showTasks(tasks);
+            if (view != null) {
+                view.showTasks(tasks);
             }
         }
     }
 
     private void processEmptyTasks() {
-        if (taskView == null) {
+        if (view == null) {
             return;
         }
         switch (filter) {
             case ALL:
-                taskView.showEmptyTasks();
+                view.showEmptyTasks();
                 break;
             case ACTIVE:
-                taskView.showEmptyActiveTasks();
+                view.showEmptyActiveTasks();
                 break;
             case COMPLETED:
-                taskView.showEmptyCompletedTasks();
+                view.showEmptyCompletedTasks();
                 break;
         }
     }

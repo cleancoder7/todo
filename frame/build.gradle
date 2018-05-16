@@ -30,10 +30,16 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            useProguard false
+            //shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            //shrinkResources true
+            crunchPngs false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,9 +50,6 @@ android {
     dataBinding {
         enabled true
     }
-/*    kapt {
-        generateStubs = true
-    }*/
 }
 
 dependencies {
@@ -54,7 +57,7 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
     //kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //test
     testImplementation 'junit:junit:4.12'
@@ -82,18 +85,11 @@ dependencies {
     api 'com.google.code.findbugs:jsr305:3.0.2'
     api 'com.google.code.gson:gson:2.8.2'
 
-    //android arch: lifecycle, room, navigation
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.0.0-alpha1'
-
-    implementation 'androidx.room:room-runtime:2.0.0-alpha1'
-    kapt 'androidx.room:room-compiler:2.0.0-alpha1'
-    implementation 'androidx.room:room-rxjava2:2.0.0-alpha1'
-    implementation 'androidx.room:room-guava:2.0.0-alpha1'
-
-/*    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
-    implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha01'*/
+    //android arch
+    implementation 'android.arch.persistence.room:runtime:1.1.0'
+    kapt 'android.arch.persistence.room:compiler:1.1.0'
+    implementation 'android.arch.persistence.room:rxjava2:1.1.0'
+    implementation 'android.arch.persistence.room:guava:1.1.0'
 
     //dagger core
     kapt 'com.google.dagger:dagger-compiler:2.16'
@@ -136,8 +132,8 @@ dependencies {
     implementation 'com.webianks.library:easy-feedback:1.0.2'
 
     //adapter
-    api 'eu.davidea:flexible-adapter:5.0.4'
-    api 'eu.davidea:flexible-adapter-ui:1.0.0-b4'
+    api 'eu.davidea:flexible-adapter:5.0.3'
+    api 'eu.davidea:flexible-adapter-ui:1.0.0-b3'
     api 'eu.davidea:flexible-adapter-livedata:1.0.0-b2'
     api 'eu.davidea:flexible-adapter-databinding:1.0.0-b3'
 }

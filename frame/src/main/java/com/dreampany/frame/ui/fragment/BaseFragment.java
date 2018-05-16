@@ -41,6 +41,12 @@ public abstract class BaseFragment extends DaggerFragment implements LifecycleOw
 
     protected abstract void onStopUi();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,6 +105,14 @@ public abstract class BaseFragment extends DaggerFragment implements LifecycleOw
             return null;
         }
         return (BaseActivity) activity;
+    }
+
+    protected boolean isParentActive() {
+        Activity activity = getParent();
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) {
+            return false;
+        }
+        return true;
     }
 
     protected Task getCurrentTask(boolean freshTask) {
