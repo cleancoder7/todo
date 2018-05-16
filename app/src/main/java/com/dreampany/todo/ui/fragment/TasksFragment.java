@@ -1,5 +1,6 @@
 package com.dreampany.todo.ui.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.dreampany.todo.ui.enums.UiSubtype;
 import com.dreampany.todo.ui.enums.UiType;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
+import com.dreampany.todo.vm.TasksViewModel;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class TasksFragment extends BaseMenuFragment implements
     private FragmentHomeBinding binding;
     private TaskAdapter adapter;
     private final int offset = 4;
+    private TasksViewModel tasksViewModel;
 
     @Inject
     public TasksFragment() {
@@ -57,7 +60,7 @@ public class TasksFragment extends BaseMenuFragment implements
     @Override
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
-        //presenter.takeView(this);
+        tasksViewModel = ViewModelProviders.of(this).get(TasksViewModel.class);
         initView();
         initRecycler();
     }
@@ -78,7 +81,7 @@ public class TasksFragment extends BaseMenuFragment implements
 
     @Override
     protected void onStopUi() {
-        //presenter.dropView();
+
     }
 
     @Override

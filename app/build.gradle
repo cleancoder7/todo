@@ -65,9 +65,13 @@ dependencies {
     //framework
     implementation project(':frame')
 
-    //android arch
-    implementation 'android.arch.persistence.room:runtime:1.1.0'
+    //android arch - lifecycle, room
+    kapt 'android.arch.lifecycle:compiler:1.1.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.0'
+    implementation 'android.arch.lifecycle:runtime:1.1.0'
+
     kapt 'android.arch.persistence.room:compiler:1.1.0'
+    implementation 'android.arch.persistence.room:runtime:1.1.0'
     implementation 'android.arch.persistence.room:rxjava2:1.1.0'
     implementation 'android.arch.persistence.room:guava:1.1.0'
 

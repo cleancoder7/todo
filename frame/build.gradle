@@ -81,11 +81,15 @@ dependencies {
     api 'com.android.support.constraint:constraint-layout:1.1.0'
 
     //google
-    api 'com.google.guava:guava:24.1-android'
     api 'com.google.code.findbugs:jsr305:3.0.2'
+    api 'com.google.guava:guava:24.1-android'
     api 'com.google.code.gson:gson:2.8.2'
 
-    //android arch
+    //android arch - lifecycle, room
+    implementation 'android.arch.lifecycle:extensions:1.1.0'
+    implementation 'android.arch.lifecycle:runtime:1.1.0'
+    kapt 'android.arch.lifecycle:compiler:1.1.0'
+
     implementation 'android.arch.persistence.room:runtime:1.1.0'
     kapt 'android.arch.persistence.room:compiler:1.1.0'
     implementation 'android.arch.persistence.room:rxjava2:1.1.0'
