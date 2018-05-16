@@ -17,15 +17,27 @@ public class Task extends Base {
 
     @PrimaryKey
     @NonNull
-    private String id;
+    private final String id;
     @Nullable
     private String title;
     @Nullable
     private String description;
     private boolean completed;
 
+    @Ignore
     public Task(@NonNull String id) {
+        this(id, null);
+    }
+
+    @Ignore
+    public Task(@NonNull String id, @Nullable String title) {
+        this(id, title, null);
+    }
+
+    public Task(@NonNull String id, @Nullable String title, @Nullable String description) {
         this.id = id;
+        this.title = title;
+        this.description = description;
     }
 
     @Ignore
@@ -76,10 +88,6 @@ public class Task extends Base {
     @Override
     public String toString() {
         return "Task: " + title;
-    }
-
-    public void setId(@NonNull String id) {
-        this.id = id;
     }
 
     public void setTitle(@Nullable String title) {

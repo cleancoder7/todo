@@ -33,11 +33,14 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled true
             shrinkResources true
+            crunchPngs false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -48,9 +51,6 @@ android {
     dataBinding {
         enabled = true
     }
-/*    kapt {
-        generateStubs = true
-    }*/
 }
 
 dependencies {
@@ -65,18 +65,11 @@ dependencies {
     //framework
     implementation project(':frame')
 
-    //android arch: lifecycle, room, navigation
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.0.0-alpha1'
-
-    implementation 'androidx.room:room-runtime:2.0.0-alpha1'
-    kapt 'androidx.room:room-compiler:2.0.0-alpha1'
-    implementation 'androidx.room:room-rxjava2:2.0.0-alpha1'
-    implementation 'androidx.room:room-guava:2.0.0-alpha1'
-
-/*    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
-    implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha01'*/
+    //android arch
+    implementation 'android.arch.persistence.room:runtime:1.1.0'
+    kapt 'android.arch.persistence.room:compiler:1.1.0'
+    implementation 'android.arch.persistence.room:rxjava2:1.1.0'
+    implementation 'android.arch.persistence.room:guava:1.1.0'
 
     //dagger core
     kapt 'com.google.dagger:dagger-compiler:2.16'

@@ -9,7 +9,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class BuildersModule {
+public abstract class ActivityModule {
     @ActivityScoped
     @ContributesAndroidInjector
     abstract LaunchActivity launchActivity();

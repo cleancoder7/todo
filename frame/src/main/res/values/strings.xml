@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">frame</string>
 
+    <string name="title_title">Title</string>
     <string name="title_home">Home</string>
     <string name="title_more">More</string>
     <string name="title_tools">Tools</string>
