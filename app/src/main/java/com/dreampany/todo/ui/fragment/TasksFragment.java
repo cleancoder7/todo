@@ -30,12 +30,14 @@ import javax.inject.Inject;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import timber.log.Timber;
 
 @ActivityScoped
 public class TasksFragment extends BaseMenuFragment implements
         View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG = TasksFragment.class.getSimpleName();
     private FragmentHomeBinding binding;
     private TaskAdapter adapter;
     private final int offset = 4;
@@ -63,6 +65,8 @@ public class TasksFragment extends BaseMenuFragment implements
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
+        Timber.i("TaskViewModel " + taskViewModel);
+        Timber.i("Application " + taskViewModel.getApplication());
         initView();
         initRecycler();
     }
