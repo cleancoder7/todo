@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.dreampany.frame.executor.AppExecutors;
 import com.dreampany.todo.data.model.Task;
-import com.dreampany.todo.data.source.TasksDataSource;
+import com.dreampany.todo.data.source.TaskDataSource;
 import com.google.common.base.Preconditions;
 
 import java.util.List;
@@ -12,14 +12,14 @@ import java.util.List;
 import javax.inject.Singleton;
 
 @Singleton
-public class LocalTasksDataSource implements TasksDataSource {
+public class LocalTaskDataSource implements TaskDataSource {
 
 
     private final AppExecutors executors;
     private final TaskDao taskDao;
 
 
-    public LocalTasksDataSource(@NonNull AppExecutors executors, @NonNull TaskDao taskDao) {
+    public LocalTaskDataSource(@NonNull AppExecutors executors, @NonNull TaskDao taskDao) {
         this.executors = executors;
         this.taskDao = taskDao;
     }

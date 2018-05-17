@@ -5,11 +5,11 @@ import android.app.Application;
 import com.dreampany.frame.executor.AppExecutors;
 import com.dreampany.todo.data.source.Local;
 import com.dreampany.todo.data.source.Remote;
-import com.dreampany.todo.data.source.TasksDataSource;
+import com.dreampany.todo.data.source.TaskDataSource;
 import com.dreampany.todo.data.source.local.DatabaseManager;
-import com.dreampany.todo.data.source.local.LocalTasksDataSource;
+import com.dreampany.todo.data.source.local.LocalTaskDataSource;
 import com.dreampany.todo.data.source.local.TaskDao;
-import com.dreampany.todo.data.source.remote.RemoteTasksDataSource;
+import com.dreampany.todo.data.source.remote.RemoteTaskDataSource;
 
 import javax.inject.Singleton;
 
@@ -27,15 +27,15 @@ public class TasksRepositoryModule {
     @Singleton
     @Provides
     @Local
-    TasksDataSource provideLocalTasksDataSource(AppExecutors executors, TaskDao taskDao) {
-        return new LocalTasksDataSource(executors, taskDao);
+    TaskDataSource provideLocalTasksDataSource(AppExecutors executors, TaskDao taskDao) {
+        return new LocalTaskDataSource(executors, taskDao);
     }
 
     @Singleton
     @Provides
     @Remote
-    TasksDataSource provideRemoteTasksDataSource() {
-        return new RemoteTasksDataSource();
+    TaskDataSource provideRemoteTasksDataSource() {
+        return new RemoteTaskDataSource();
     }
 
     @Singleton
@@ -53,10 +53,6 @@ public class TasksRepositoryModule {
     @Singleton
     @Provides
     AppExecutors provideExecutors() {
-        return new AppExecutors(
-                new AppExecutors.MainThreadExecutor(),
-                new AppExecutors.DiskIOThreadExecutor(),
-                new AppExecutors.NetworkIOThreadExecutor()
-        );
+        return new AppExecutors();
     }
 }

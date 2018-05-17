@@ -16,16 +16,16 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class TasksRepository implements TasksDataSource {
+public class TaskRepository implements TaskDataSource {
 
-    private final TasksDataSource localDataSource;
-    private final TasksDataSource remoteDataSource;
+    private final TaskDataSource localDataSource;
+    private final TaskDataSource remoteDataSource;
 
     private Map<String, Task> cachedTasks;
     private boolean cacheIsDirty = false;
 
     @Inject
-    TasksRepository(@Local TasksDataSource localDataSource, @Remote TasksDataSource remoteDataSource) {
+    TaskRepository(@Local TaskDataSource localDataSource, @Remote TaskDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }

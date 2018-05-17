@@ -3,7 +3,7 @@ package com.dreampany.todo.data.source.remote;
 import android.support.annotation.NonNull;
 
 import com.dreampany.todo.data.model.Task;
-import com.dreampany.todo.data.source.TasksDataSource;
+import com.dreampany.todo.data.source.TaskDataSource;
 
 import javax.inject.Singleton;
 
@@ -14,7 +14,7 @@ import javax.inject.Singleton;
  */
 
 @Singleton
-public class RemoteTasksDataSource implements TasksDataSource {
+public class RemoteTaskDataSource implements TaskDataSource {
     @Override
     public void loadTasks(@NonNull Callback callback) {
 

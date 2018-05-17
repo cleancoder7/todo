@@ -22,9 +22,7 @@ import com.dreampany.todo.ui.enums.UiSubtype;
 import com.dreampany.todo.ui.enums.UiType;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
-import com.dreampany.todo.vm.TasksViewModel;
-
-import java.util.List;
+import com.dreampany.todo.vm.TaskViewModel;
 
 import javax.inject.Inject;
 
@@ -40,7 +38,7 @@ public class TasksFragment extends BaseMenuFragment implements
     private FragmentHomeBinding binding;
     private TaskAdapter adapter;
     private final int offset = 4;
-    private TasksViewModel tasksViewModel;
+    private TaskViewModel taskViewModel;
 
     @Inject
     public TasksFragment() {
@@ -60,7 +58,7 @@ public class TasksFragment extends BaseMenuFragment implements
     @Override
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
-        tasksViewModel = ViewModelProviders.of(this).get(TasksViewModel.class);
+        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         initView();
         initRecycler();
     }

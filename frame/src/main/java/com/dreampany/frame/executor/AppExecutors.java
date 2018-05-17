@@ -26,6 +26,14 @@ public class AppExecutors {
 
     private final Executor networkIO;
 
+    public AppExecutors() {
+        this(
+                new AppExecutors.MainThreadExecutor(),
+                new AppExecutors.DiskIOThreadExecutor(),
+                new AppExecutors.NetworkIOThreadExecutor()
+        );
+    }
+
     public AppExecutors(Executor mainThread, Executor diskIO, Executor networkIO) {
         this.mainThread = mainThread;
         this.diskIO = diskIO;
@@ -44,7 +52,7 @@ public class AppExecutors {
         return networkIO;
     }
 
-    public static class MainThreadExecutor implements Executor {
+    private static class MainThreadExecutor implements Executor {
         private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
         @Override
@@ -53,7 +61,7 @@ public class AppExecutors {
         }
     }
 
-    public static class DiskIOThreadExecutor implements Executor {
+    private static class DiskIOThreadExecutor implements Executor {
         private final Executor diskIO;
 
         public DiskIOThreadExecutor() {
@@ -66,7 +74,7 @@ public class AppExecutors {
         }
     }
 
-    public static class NetworkIOThreadExecutor implements Executor {
+    private static class NetworkIOThreadExecutor implements Executor {
         private final Executor networkIO;
 
         public NetworkIOThreadExecutor() {

@@ -6,7 +6,7 @@ import com.dreampany.todo.data.model.Task;
 
 import java.util.List;
 
-public interface TasksDataSource {
+public interface TaskDataSource {
 
     interface Callback {
         void onLoad(List<Task> tasks);
