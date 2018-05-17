@@ -24,6 +24,7 @@ import dagger.Provides;
 
 @Module(includes = ViewModelModule.class)
 class BuildersModule {
+
     @Singleton
     @Provides
     @Local

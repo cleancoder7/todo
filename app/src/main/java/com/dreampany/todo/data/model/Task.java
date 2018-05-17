@@ -72,8 +72,12 @@ public class Task extends Base {
 
     @Override
     public boolean equals(Object inObject) {
-        if (this == inObject) return true;
-        if (inObject == null || getClass() != inObject.getClass()) return false;
+        if (this == inObject) {
+            return true;
+        }
+        if (inObject == null || getClass() != inObject.getClass()) {
+            return false;
+        }
         Task task = (Task) inObject;
         return Objects.equal(id, task.id) &&
                 Objects.equal(title, task.title) &&
