@@ -17,13 +17,13 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by Hawladar Roman on 2/5/18.
- * Dreampany
- * dreampanymail@gmail.com
+ * Created by Hawladar Roman on 5/17/2018.
+ * BJIT Group
+ * hawladar.roman@bjitgroup.com
  */
-@Module
-public class TasksRepositoryModule {
 
+@Module(includes = ViewModelModule.class)
+class BuildersModule {
     @Singleton
     @Provides
     @Local
