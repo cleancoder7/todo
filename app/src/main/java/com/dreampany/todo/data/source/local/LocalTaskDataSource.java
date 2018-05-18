@@ -4,15 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskDataSource;
-import com.google.common.base.Preconditions;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Flowable;
 
 @Singleton
 public class LocalTaskDataSource implements TaskDataSource {
@@ -23,27 +21,87 @@ public class LocalTaskDataSource implements TaskDataSource {
         this.taskDao = taskDao;
     }
 
+    @NonNull
     @Override
-    public Single<List<Task>> getTasks() {
-        return Single.create(emitter -> {
-            List<Task> tasks = taskDao.getTasks();
-            if (!emitter.isDisposed()) {
-                emitter.onSuccess(tasks);
-            }
-        });
+    public Flowable<List<Task>> getTasks() {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Flowable<Task> getTask(@NonNull String taskId) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable saveTask(@NonNull Task task) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable saveTasks(@NonNull List<Task> tasks) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable completeTask(@NonNull Task task) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable completeTask(@NonNull String taskId) {
+        return null;
     }
 
     @Override
-    public Single<Task> getTask(@NonNull final String taskId) {
-        return Single.create(emitter -> {
-            Task task = taskDao.getTaskById(taskId);
-            if (!emitter.isDisposed()) {
-                emitter.onSuccess(task);
-            }
-        });
+    public Completable activateTask(@NonNull Task task) {
+        return null;
     }
 
     @Override
+    public Completable activateTask(@NonNull String taskId) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable clearCompletedTasks() {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable refreshTasks() {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable deleteAllTasks() {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public Completable deleteTask(@NonNull String taskId) {
+        return null;
+    }
+
+/*    @Override
+    public Flowable<List<Task>> getTasks() {
+        return taskDao.getTasks();
+    }
+
+    @Override
+    public Flowable<Task> getTask(@NonNull final String taskId) {
+        return taskDao.getTaskById(taskId);
+    }*/
+
+    /*@Override
     public Completable saveTask(@NonNull final Task task) {
         Preconditions.checkNotNull(task);
         return Completable.create(emitter -> {
@@ -119,5 +177,5 @@ public class LocalTaskDataSource implements TaskDataSource {
                 emitter.onComplete();
             }
         });
-    }
+    }*/
 }

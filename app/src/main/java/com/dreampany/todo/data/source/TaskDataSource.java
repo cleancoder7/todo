@@ -7,15 +7,15 @@ import com.dreampany.todo.data.model.Task;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 
 public interface TaskDataSource {
 
     @NonNull
-    Observable<List<Task>> getTasks();
+    Flowable<List<Task>> getTasks();
 
     @NonNull
-    Observable<Task> getTask(@NonNull String taskId);
+    Flowable<Task> getTask(@NonNull String taskId);
 
     @NonNull
     Completable saveTask(@NonNull Task task);

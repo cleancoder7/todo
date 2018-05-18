@@ -9,6 +9,8 @@ import com.dreampany.todo.data.model.Task;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface TaskDao extends BaseDao<Task> {
 
@@ -16,10 +18,10 @@ public interface TaskDao extends BaseDao<Task> {
     int count();
 
     @Query("select * from task")
-    LiveData<List<Task>> getTasks();
+    Flowable<List<Task>> getTasks();
 
     @Query("select * from task where id = :id limit 1")
-    LiveData<Task> getTaskById(String id);
+    Flowable<Task> getTaskById(String id);
 
     @Query("update task set completed = :completed WHERE id = :id")
     void updateCompleted(String id, boolean completed);

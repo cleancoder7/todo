@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import com.dreampany.todo.data.model.Task;
 import com.google.common.base.Preconditions;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 @Singleton
@@ -34,11 +34,8 @@ public class TaskRepository implements TaskDataSource {
     }
 
     @Override
-    public Single<List<Task>> getTasks(/*@NonNull Callback callback*/) {
-        //Preconditions.checkNotNull(callback);
-
-        if (cachedTasks != null && !cacheIsDirty) {
-            //callback.onLoad(new ArrayList<>(cachedTasks.values()));
+    public Flowable<List<Task>> getTasks() {
+/*        if (cachedTasks != null && !cacheIsDirty) {
             return Single.just(new ArrayList<>(cachedTasks.values()));
         }
 
@@ -46,12 +43,13 @@ public class TaskRepository implements TaskDataSource {
             return loadTasksFromRemote();
         } else {
             return loadTasksFromLocal();
-        }
+        }*/
+        return loadTasksFromLocal();
     }
 
     @Override
-    public Single<Task> getTask(@NonNull String taskId) {
-        return Single.just(new Task(""));
+    public Flowable<Task> getTask(@NonNull String taskId) {
+        return null;
     }
 
     @Override
@@ -65,6 +63,12 @@ public class TaskRepository implements TaskDataSource {
         }
         cachedTasks.put(task.getId(), task);
         return Completable.complete();
+    }
+
+    @NonNull
+    @Override
+    public Completable saveTasks(@NonNull List<Task> tasks) {
+        return null;
     }
 
     @Override
@@ -118,7 +122,7 @@ public class TaskRepository implements TaskDataSource {
         return Completable.complete();
     }
 
-    private Single<List<Task>> loadTasksFromLocal(/*@NonNull final Callback callback*/) {
+    private Flowable<List<Task>> loadTasksFromLocal() {
 /*        localDataSource.getTasks(new Callback() {
             @Override
             public void onLoad(List<Task> tasks) {
@@ -136,11 +140,11 @@ public class TaskRepository implements TaskDataSource {
                 loadTasksFromRemote(callback);
             }
         });*/
-        return Single.just(new ArrayList<>());
+        return null;
     }
 
     private Single<List<Task>> loadTasksFromRemote(/*@NonNull final Callback callback*/) {
-        return remoteDataSource.getTasks();
+        return null;//remoteDataSource.getTasks();
     }
 
     private void refreshCache(List<Task> tasks) {
