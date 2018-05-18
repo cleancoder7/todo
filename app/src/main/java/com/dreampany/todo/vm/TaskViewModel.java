@@ -2,6 +2,7 @@ package com.dreampany.todo.vm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
@@ -26,8 +27,9 @@ public class TaskViewModel extends AndroidViewModel {
     private TaskRepository taskRepository;
     private Filter filter;
 
-    private final CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable(); //to support rx facade
     public final ObservableField<String> filterLabel = new ObservableField<>();
+    public final ObservableBoolean loadingUi = new ObservableBoolean(false);
 
     @Inject
     public TaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
@@ -40,9 +42,16 @@ public class TaskViewModel extends AndroidViewModel {
 
     @Override
     protected void onCleared() {
-       disposable.clear();
+        disposable.clear();
     }
 
+    public void start() {
+        loadTasks(false);
+    }
+
+    public void loadTasks(boolean forceUpdate) {
+        loadTasks(forceUpdate, true);
+    }
 
     public void setFiltering(Filter filter) {
         this.filter = filter;
@@ -55,5 +64,9 @@ public class TaskViewModel extends AndroidViewModel {
             case COMPLETED:
                 break;
         }
+    }
+
+    private void loadTasks(boolean forceUpdate, boolean loadingUi) {
+
     }
 }

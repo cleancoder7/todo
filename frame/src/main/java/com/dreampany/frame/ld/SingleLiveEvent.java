@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,7 +17,7 @@ import timber.log.Timber;
  */
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
-    private static final String TAG = "SingleLiveEvent";
+    private static final String TAG = SingleLiveEvent.class.getSimpleName();
     private final AtomicBoolean pending = new AtomicBoolean(false);
 
     @Override

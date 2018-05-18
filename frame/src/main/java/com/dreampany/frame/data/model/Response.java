@@ -23,7 +23,7 @@ public class Response<T> {
     @Nullable
     public final T data;
 
-    public Response(@NonNull Status status, @Nullable String message, @Nullable T data) {
+    private Response(@NonNull Status status, @Nullable String message, @Nullable T data) {
         this.status = status;
         this.message = message;
         this.data = data;

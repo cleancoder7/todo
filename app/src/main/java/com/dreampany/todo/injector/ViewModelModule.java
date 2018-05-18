@@ -26,5 +26,5 @@ abstract class ViewModelModule {
     abstract ViewModel bindTaskViewModel(TaskViewModel taskViewModel);
 
     @Binds
-    abstract ViewModelProvider.Factory bindViewModelFactory(TaskViewModelFactory factory);
+    abstract ViewModelProvider.Factory bindTaskViewModelFactory(TaskViewModelFactory factory);
 }
