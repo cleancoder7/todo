@@ -2,12 +2,10 @@ package com.dreampany.todo.data.source;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.dreampany.todo.data.model.Task;
 import com.google.common.base.Preconditions;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 @Singleton
 public class TaskRepository implements TaskDataSource {
@@ -34,136 +30,82 @@ public class TaskRepository implements TaskDataSource {
         this.remoteDataSource = remoteDataSource;
     }
 
+    @NonNull
     @Override
     public Observable<List<Task>> getTasks() {
-        return null;
+        return localDataSource.getTasks();
     }
 
+    @NonNull
     @Override
     public Observable<Task> getTask(@NonNull String taskId) {
-        return null;
+        Preconditions.checkNotNull(taskId);
+        return localDataSource.getTask(taskId);
     }
 
+    @NonNull
     @Override
     public Completable saveTask(@NonNull Task task) {
         Preconditions.checkNotNull(task);
-        remoteDataSource.saveTask(task);
-        localDataSource.saveTask(task);
-
-        if (cachedTasks == null) {
-            cachedTasks = new LinkedHashMap<>();
-        }
-        cachedTasks.put(task.getId(), task);
-        return Completable.complete();
+        return localDataSource.saveTask(task).andThen(remoteDataSource.saveTask(task));
     }
 
     @NonNull
     @Override
     public Completable saveTasks(@NonNull List<Task> tasks) {
-        return null;
+        Preconditions.checkNotNull(tasks);
+        return localDataSource.saveTasks(tasks).andThen(remoteDataSource.saveTasks(tasks));
     }
 
+    @NonNull
     @Override
     public Completable completeTask(@NonNull Task task) {
         Preconditions.checkNotNull(task);
-        remoteDataSource.completeTask(task);
-        localDataSource.completeTask(task);
-
-        task.setCompleted(true);
-        if (cachedTasks == null) {
-            cachedTasks = new LinkedHashMap<>();
-        }
-        cachedTasks.put(task.getId(), task);
-        return Completable.complete();
+        return localDataSource.completeTask(task).andThen(remoteDataSource.completeTask(task));
     }
 
+    @NonNull
     @Override
     public Completable completeTask(@NonNull String taskId) {
         Preconditions.checkNotNull(taskId);
-        completeTask(getTaskById(taskId));
-        return Completable.complete();
+        return localDataSource.completeTask(taskId).andThen(remoteDataSource.completeTask(taskId));
     }
 
+    @NonNull
     @Override
     public Completable activateTask(@NonNull Task task) {
-        return Completable.complete();
+        Preconditions.checkNotNull(task);
+        return localDataSource.activateTask(task).andThen(remoteDataSource.activateTask(task));
     }
 
+    @NonNull
     @Override
     public Completable activateTask(@NonNull String taskId) {
-        return Completable.complete();
+        Preconditions.checkNotNull(taskId);
+        return localDataSource.activateTask(taskId).andThen(remoteDataSource.activateTask(taskId));
     }
 
+    @NonNull
     @Override
     public Completable clearCompletedTasks() {
-        return Completable.complete();
+        return localDataSource.clearCompletedTasks().andThen(remoteDataSource.clearCompletedTasks());
     }
 
+    @NonNull
     @Override
     public Completable refreshTasks() {
-        return Completable.complete();
+        return localDataSource.refreshTasks().andThen(remoteDataSource.refreshTasks());
     }
 
+    @NonNull
     @Override
     public Completable deleteAllTasks() {
-        return Completable.complete();
+        return localDataSource.deleteAllTasks().andThen(remoteDataSource.deleteAllTasks());
     }
 
+    @NonNull
     @Override
     public Completable deleteTask(@NonNull String taskId) {
-        return Completable.complete();
-    }
-
-    private Flowable<List<Task>> loadTasksFromLocal() {
-/*        localDataSource.getTasks(new Callback() {
-            @Override
-            public void onLoad(List<Task> tasks) {
-                refreshCache(tasks);
-                callback.onLoad(new ArrayList<>(cachedTasks.values()));
-            }
-
-            @Override
-            public void onLoad(Task task) {
-
-            }
-
-            @Override
-            public void onEmpty() {
-                loadTasksFromRemote(callback);
-            }
-        });*/
-        return null;
-    }
-
-    private Single<List<Task>> loadTasksFromRemote(/*@NonNull final Callback callback*/) {
-        return null;//remoteDataSource.getTasks();
-    }
-
-    private void refreshCache(List<Task> tasks) {
-        if (cachedTasks == null) {
-            cachedTasks = new LinkedHashMap<>();
-        }
-        cachedTasks.clear();
-        for (Task task : tasks) {
-            cachedTasks.put(task.getId(), task);
-        }
-        cacheIsDirty = false;
-    }
-
-    private void refreshLocalDataSource(List<Task> tasks) {
-        localDataSource.deleteAllTasks();
-        for (Task task : tasks) {
-            localDataSource.saveTask(task);
-        }
-    }
-
-    @Nullable
-    private Task getTaskById(@NonNull String taskId) {
-        Preconditions.checkNotNull(taskId);
-        if (cachedTasks == null || cachedTasks.isEmpty()) {
-            return null;
-        } else {
-            return cachedTasks.get(taskId);
-        }
+        return localDataSource.deleteTask(taskId).andThen(remoteDataSource.deleteTask(taskId));
     }
 }
