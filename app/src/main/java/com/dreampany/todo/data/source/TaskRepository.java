@@ -16,6 +16,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 @Singleton
@@ -34,21 +35,12 @@ public class TaskRepository implements TaskDataSource {
     }
 
     @Override
-    public Flowable<List<Task>> getTasks() {
-/*        if (cachedTasks != null && !cacheIsDirty) {
-            return Single.just(new ArrayList<>(cachedTasks.values()));
-        }
-
-        if (cacheIsDirty) {
-            return loadTasksFromRemote();
-        } else {
-            return loadTasksFromLocal();
-        }*/
-        return loadTasksFromLocal();
+    public Observable<List<Task>> getTasks() {
+        return null;
     }
 
     @Override
-    public Flowable<Task> getTask(@NonNull String taskId) {
+    public Observable<Task> getTask(@NonNull String taskId) {
         return null;
     }
 

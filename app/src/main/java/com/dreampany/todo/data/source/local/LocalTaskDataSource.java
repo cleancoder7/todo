@@ -10,7 +10,7 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 @Singleton
 public class LocalTaskDataSource implements TaskDataSource {
@@ -23,13 +23,13 @@ public class LocalTaskDataSource implements TaskDataSource {
 
     @NonNull
     @Override
-    public Flowable<List<Task>> getTasks() {
+    public Observable<List<Task>> getTasks() {
         return null;
     }
 
     @NonNull
     @Override
-    public Flowable<Task> getTask(@NonNull String taskId) {
+    public Observable<Task> getTask(@NonNull String taskId) {
         return null;
     }
 
