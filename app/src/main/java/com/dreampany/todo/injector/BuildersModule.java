@@ -2,7 +2,6 @@ package com.dreampany.todo.injector;
 
 import android.app.Application;
 
-import com.dreampany.frame.executor.AppExecutors;
 import com.dreampany.todo.data.source.Local;
 import com.dreampany.todo.data.source.Remote;
 import com.dreampany.todo.data.source.TaskDataSource;
@@ -28,8 +27,8 @@ class BuildersModule {
     @Singleton
     @Provides
     @Local
-    TaskDataSource provideLocalTasksDataSource(AppExecutors executors, TaskDao taskDao) {
-        return new LocalTaskDataSource(executors, taskDao);
+    TaskDataSource provideLocalTasksDataSource(TaskDao taskDao) {
+        return new LocalTaskDataSource(taskDao);
     }
 
     @Singleton
@@ -51,9 +50,9 @@ class BuildersModule {
         return database.taskDao();
     }
 
-    @Singleton
+/*    @Singleton
     @Provides
     AppExecutors provideExecutors() {
         return new AppExecutors();
-    }
+    }*/
 }
