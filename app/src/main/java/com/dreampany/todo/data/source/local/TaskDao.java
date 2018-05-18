@@ -1,11 +1,8 @@
 package com.dreampany.todo.data.source.local;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import com.dreampany.frame.data.dao.BaseDao;
 import com.dreampany.todo.data.model.Task;
@@ -19,10 +16,10 @@ public interface TaskDao extends BaseDao<Task> {
     int count();
 
     @Query("select * from task")
-    List<Task> getTasks();
+    LiveData<List<Task>> getTasks();
 
     @Query("select * from task where id = :id limit 1")
-    Task getTaskById(String id);
+    LiveData<Task> getTaskById(String id);
 
     @Query("update task set completed = :completed WHERE id = :id")
     void updateCompleted(String id, boolean completed);
