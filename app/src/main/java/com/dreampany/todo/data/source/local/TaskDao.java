@@ -1,6 +1,5 @@
 package com.dreampany.todo.data.source.local;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -9,7 +8,7 @@ import com.dreampany.todo.data.model.Task;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 @Dao
 public interface TaskDao extends BaseDao<Task> {
@@ -18,10 +17,10 @@ public interface TaskDao extends BaseDao<Task> {
     int count();
 
     @Query("select * from task")
-    Flowable<List<Task>> getTasks();
+    Observable<List<Task>> getTasks();
 
     @Query("select * from task where id = :id limit 1")
-    Flowable<Task> getTaskById(String id);
+    Observable<Task> getTaskById(String id);
 
     @Query("update task set completed = :completed WHERE id = :id")
     void updateCompleted(String id, boolean completed);

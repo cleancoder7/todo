@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskDataSource;
+import com.google.common.base.Preconditions;
 
 import java.util.List;
 
@@ -24,158 +25,87 @@ public class LocalTaskDataSource implements TaskDataSource {
     @NonNull
     @Override
     public Observable<List<Task>> getTasks() {
-        return null;
+        return taskDao.getTasks();
     }
 
     @NonNull
     @Override
     public Observable<Task> getTask(@NonNull String taskId) {
-        return null;
+        return taskDao.getTaskById(taskId);
     }
 
     @NonNull
     @Override
     public Completable saveTask(@NonNull Task task) {
-        return null;
+        Preconditions.checkNotNull(task);
+        return Completable.fromAction(() -> {
+            taskDao.insert(task);
+        });
     }
 
     @NonNull
     @Override
     public Completable saveTasks(@NonNull List<Task> tasks) {
-        return null;
+        Preconditions.checkNotNull(tasks);
+        return Completable.fromAction(() -> {
+            taskDao.insert(tasks);
+        });
     }
 
     @NonNull
     @Override
     public Completable completeTask(@NonNull Task task) {
-        return null;
+        Preconditions.checkNotNull(task);
+        return completeTask(task.getId());
     }
 
     @NonNull
     @Override
     public Completable completeTask(@NonNull String taskId) {
-        return null;
+        Preconditions.checkNotNull(taskId);
+        return Completable.fromAction(() -> {
+            taskDao.updateCompleted(taskId, true);
+        });
     }
 
     @Override
     public Completable activateTask(@NonNull Task task) {
-        return null;
+        Preconditions.checkNotNull(task);
+        return activateTask(task.getId());
     }
 
     @Override
     public Completable activateTask(@NonNull String taskId) {
-        return null;
+        Preconditions.checkNotNull(taskId);
+        return Completable.fromAction(() -> {
+            taskDao.updateCompleted(taskId, false);
+        });
     }
 
     @NonNull
     @Override
     public Completable clearCompletedTasks() {
-        return null;
+        return Completable.fromAction(taskDao::deleteCompleted);
     }
 
     @NonNull
     @Override
     public Completable refreshTasks() {
-        return null;
+        return Completable.complete();
     }
 
     @NonNull
     @Override
     public Completable deleteAllTasks() {
-        return null;
+        return Completable.fromAction(taskDao::deleteAll);
     }
 
     @NonNull
     @Override
     public Completable deleteTask(@NonNull String taskId) {
-        return null;
-    }
-
-/*    @Override
-    public Flowable<List<Task>> getTasks() {
-        return taskDao.getTasks();
-    }
-
-    @Override
-    public Flowable<Task> getTask(@NonNull final String taskId) {
-        return taskDao.getTaskById(taskId);
-    }*/
-
-    /*@Override
-    public Completable saveTask(@NonNull final Task task) {
-        Preconditions.checkNotNull(task);
-        return Completable.create(emitter -> {
-            taskDao.insert(task);
-            if (!emitter.isDisposed()) {
-                emitter.onComplete();
-            }
-        });
-    }
-
-    @Override
-    public Completable completeTask(@NonNull final Task task) {
-        Preconditions.checkNotNull(task);
-        return Completable.create(emitter -> {
-            taskDao.updateCompleted(task.getId(), task.isCompleted());
-            if (!emitter.isDisposed()) {
-                emitter.onComplete();
-            }
-        });
-    }
-
-    @Override
-    public Completable completeTask(@NonNull String taskId) {
-        return Completable.complete();
-    }
-
-    @Override
-    public Completable activateTask(@NonNull final Task task) {
-        Preconditions.checkNotNull(task);
-        return Completable.create(emitter -> {
-            taskDao.updateCompleted(task.getId(), false);
-            if (!emitter.isDisposed()) {
-                emitter.onComplete();
-            }
-        });
-    }
-
-    @Override
-    public Completable activateTask(@NonNull String taskId) {
-        return Completable.complete();
-    }
-
-    @Override
-    public Completable clearCompletedTasks() {
-        return Completable.create(emitter -> {
-            taskDao.deleteCompleted();
-            if (!emitter.isDisposed()) {
-                emitter.onComplete();
-            }
-        });
-    }
-
-    @Override
-    public Completable refreshTasks() {
-        return Completable.complete();
-    }
-
-    @Override
-    public Completable deleteAllTasks() {
-        return Completable.create(emitter -> {
-            taskDao.deleteAll();
-            if (!emitter.isDisposed()) {
-                emitter.onComplete();
-            }
-        });
-    }
-
-    @Override
-    public Completable deleteTask(@NonNull final String taskId) {
-        return Completable.create(emitter -> {
+        Preconditions.checkNotNull(taskId);
+        return Completable.fromAction(() -> {
             taskDao.deleteById(taskId);
-            if (!emitter.isDisposed()) {
-                emitter.onComplete();
-            }
         });
-    }*/
+    }
 }

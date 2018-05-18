@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(T item);
+    void insert(T t);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(List<T> items);
+    void insert(List<T> ts);
 
     @Update
     void update(T item);
