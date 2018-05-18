@@ -28,13 +28,13 @@ public class TaskRepository implements TaskDataSource {
     private boolean cacheIsDirty = false;
 
     @Inject
-    TaskRepository(@Local TaskDataSource localDataSource, @Remote TaskDataSource remoteDataSource) {
+    public TaskRepository(@Local TaskDataSource localDataSource, @Remote TaskDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }
 
     @Override
-    public Single<List<Task>> loadTasks(/*@NonNull Callback callback*/) {
+    public Single<List<Task>> getTasks(/*@NonNull Callback callback*/) {
         //Preconditions.checkNotNull(callback);
 
         if (cachedTasks != null && !cacheIsDirty) {
@@ -50,7 +50,7 @@ public class TaskRepository implements TaskDataSource {
     }
 
     @Override
-    public Single<Task> loadTask(@NonNull String taskId) {
+    public Single<Task> getTask(@NonNull String taskId) {
         return Single.just(new Task(""));
     }
 
@@ -119,7 +119,7 @@ public class TaskRepository implements TaskDataSource {
     }
 
     private Single<List<Task>> loadTasksFromLocal(/*@NonNull final Callback callback*/) {
-/*        localDataSource.loadTasks(new Callback() {
+/*        localDataSource.getTasks(new Callback() {
             @Override
             public void onLoad(List<Task> tasks) {
                 refreshCache(tasks);
@@ -140,7 +140,7 @@ public class TaskRepository implements TaskDataSource {
     }
 
     private Single<List<Task>> loadTasksFromRemote(/*@NonNull final Callback callback*/) {
-        return remoteDataSource.loadTasks();
+        return remoteDataSource.getTasks();
     }
 
     private void refreshCache(List<Task> tasks) {

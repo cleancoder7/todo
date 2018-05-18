@@ -13,6 +13,7 @@ import com.dreampany.todo.data.source.TaskRepository;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 
 /**
@@ -36,7 +37,7 @@ public class TaskViewModel extends AndroidViewModel {
         super(application);
         this.facade = facade;
         this.taskRepository = taskRepository;
-
+        Timber.i("TaskRepository %s", taskRepository+"");
         setFiltering(Filter.ALL);
     }
 

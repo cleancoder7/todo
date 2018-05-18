@@ -8,6 +8,7 @@ import com.google.common.base.Preconditions;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
@@ -23,7 +24,7 @@ public class LocalTaskDataSource implements TaskDataSource {
     }
 
     @Override
-    public Single<List<Task>> loadTasks() {
+    public Single<List<Task>> getTasks() {
         return Single.create(emitter -> {
             List<Task> tasks = taskDao.getTasks();
             if (!emitter.isDisposed()) {
@@ -33,7 +34,7 @@ public class LocalTaskDataSource implements TaskDataSource {
     }
 
     @Override
-    public Single<Task> loadTask(@NonNull final String taskId) {
+    public Single<Task> getTask(@NonNull final String taskId) {
         return Single.create(emitter -> {
             Task task = taskDao.getTaskById(taskId);
             if (!emitter.isDisposed()) {

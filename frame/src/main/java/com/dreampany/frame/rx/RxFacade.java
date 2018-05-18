@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers;
  * hawladar.roman@bjitgroup.com
  */
 public class RxFacade {
+
     @Inject
     public RxFacade() {
     }

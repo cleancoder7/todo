@@ -2,9 +2,11 @@ package com.dreampany.todo.injector;
 
 import android.app.Application;
 
+import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.todo.data.source.Local;
 import com.dreampany.todo.data.source.Remote;
 import com.dreampany.todo.data.source.TaskDataSource;
+import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.data.source.local.DatabaseManager;
 import com.dreampany.todo.data.source.local.LocalTaskDataSource;
 import com.dreampany.todo.data.source.local.TaskDao;
@@ -23,6 +25,12 @@ import dagger.Provides;
 
 @Module(includes = ViewModelModule.class)
 class BuildersModule {
+
+/*    @Singleton
+    @Provides
+    RxFacade provideRxFacade() {
+        return new RxFacade();
+    }*/
 
     @Singleton
     @Provides

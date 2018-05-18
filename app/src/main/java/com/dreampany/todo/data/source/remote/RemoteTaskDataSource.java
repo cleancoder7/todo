@@ -5,7 +5,13 @@ import android.support.annotation.NonNull;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskDataSource;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import io.reactivex.Completable;
+import io.reactivex.Single;
 
 /**
  * Created by Hawladar Roman on 30/4/18.
@@ -15,58 +21,62 @@ import javax.inject.Singleton;
 
 @Singleton
 public class RemoteTaskDataSource implements TaskDataSource {
-    @Override
-    public void loadTasks(@NonNull Callback callback) {
 
+    public RemoteTaskDataSource() {
     }
 
     @Override
-    public void loadTask(@NonNull String taskId, @NonNull Callback callback) {
-
+    public Single<List<Task>> getTasks() {
+        return null;
     }
 
     @Override
-    public void saveTask(@NonNull Task task) {
-
+    public Single<Task> getTask(@NonNull String taskId) {
+        return null;
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
-
+    public Completable saveTask(@NonNull Task task) {
+        return null;
     }
 
     @Override
-    public void completeTask(@NonNull String taskId) {
-
+    public Completable completeTask(@NonNull Task task) {
+        return null;
     }
 
     @Override
-    public void activateTask(@NonNull Task task) {
-
+    public Completable completeTask(@NonNull String taskId) {
+        return null;
     }
 
     @Override
-    public void activateTask(@NonNull String taskId) {
-
+    public Completable activateTask(@NonNull Task task) {
+        return null;
     }
 
     @Override
-    public void clearCompletedTasks() {
-
+    public Completable activateTask(@NonNull String taskId) {
+        return null;
     }
 
     @Override
-    public void refreshTasks() {
-
+    public Completable clearCompletedTasks() {
+        return null;
     }
 
     @Override
-    public void deleteAllTasks() {
-
+    public Completable refreshTasks() {
+        return null;
     }
 
     @Override
-    public void deleteTask(@NonNull String taskId) {
+    public Completable deleteAllTasks() {
+        return null;
+    }
 
+    @Override
+    public Completable deleteTask(@NonNull String taskId) {
+        return null;
     }
 }

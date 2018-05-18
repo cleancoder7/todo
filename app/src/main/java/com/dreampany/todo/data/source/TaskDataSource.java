@@ -7,37 +7,41 @@ import com.dreampany.todo.data.model.Task;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 public interface TaskDataSource {
 
-/*    interface Callback {
-        void onLoad(List<Task> tasks);
+    @NonNull
+    Observable<List<Task>> getTasks();
 
-        void onLoad(Task task);
+    @NonNull
+    Observable<Task> getTask(@NonNull String taskId);
 
-        void onEmpty();
-    }*/
-
-    Single<List<Task>> loadTasks(/*@NonNull Callback callback*/);
-
-    Single<Task> loadTask(@NonNull String taskId/*, @NonNull Callback callback*/);
-
+    @NonNull
     Completable saveTask(@NonNull Task task);
 
+    @NonNull
+    Completable saveTasks(@NonNull List<Task> tasks);
+
+    @NonNull
     Completable completeTask(@NonNull Task task);
 
+    @NonNull
     Completable completeTask(@NonNull String taskId);
 
     Completable activateTask(@NonNull Task task);
 
     Completable activateTask(@NonNull String taskId);
 
+    @NonNull
     Completable clearCompletedTasks();
 
+    @NonNull
     Completable refreshTasks();
 
+    @NonNull
     Completable deleteAllTasks();
 
+    @NonNull
     Completable deleteTask(@NonNull String taskId);
 }
