@@ -2,7 +2,6 @@ package com.dreampany.todo.data.source.local;
 
 import android.support.annotation.NonNull;
 
-import com.dreampany.frame.executor.AppExecutors;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskDataSource;
 import com.google.common.base.Preconditions;
@@ -11,107 +10,113 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
 @Singleton
 public class LocalTaskDataSource implements TaskDataSource {
 
-
-    private final AppExecutors executors;
     private final TaskDao taskDao;
 
-
-    public LocalTaskDataSource(@NonNull AppExecutors executors, @NonNull TaskDao taskDao) {
-        this.executors = executors;
+    public LocalTaskDataSource(@NonNull TaskDao taskDao) {
         this.taskDao = taskDao;
     }
 
     @Override
-    public void loadTasks(@NonNull final Callback callback) {
-        Runnable diskCommand = () -> {
-            final List<Task> tasks = taskDao.getTasks();
-            Runnable uiCommand = () -> {
-                if (!tasks.isEmpty()) {
-                    callback.onLoad(tasks);
-                } else {
-                    callback.onEmpty();
-                }
-            };
-            executors.getMainThread().execute(uiCommand);
-        };
-        executors.getDiskIO().execute(diskCommand);
-    }
-
-    @Override
-    public void loadTask(@NonNull final String taskId, @NonNull final Callback callback) {
-        Runnable diskCommand = () -> {
-            final Task task = taskDao.getTaskById(taskId);
-            Runnable uiCommand = () -> {
-                if (task != null) {
-                    callback.onLoad(task);
-                } else {
-                    callback.onEmpty();
-                }
-            };
-            executors.getMainThread().execute(uiCommand);
-        };
-        executors.getDiskIO().execute(diskCommand);
-    }
-
-    @Override
-    public void saveTask(@NonNull final Task task) {
-        Preconditions.checkNotNull(task);
-        Runnable diskCommand = new Runnable() {
-            @Override
-            public void run() {
-                taskDao.insert(task);
+    public Single<List<Task>> loadTasks() {
+        return Single.create(emitter -> {
+            List<Task> tasks = taskDao.getTasks();
+            if (!emitter.isDisposed()) {
+                emitter.onSuccess(tasks);
             }
-        };
-        executors.getDiskIO().execute(diskCommand);
+        });
     }
 
     @Override
-    public void completeTask(@NonNull final Task task) {
+    public Single<Task> loadTask(@NonNull final String taskId) {
+        return Single.create(emitter -> {
+            Task task = taskDao.getTaskById(taskId);
+            if (!emitter.isDisposed()) {
+                emitter.onSuccess(task);
+            }
+        });
+    }
+
+    @Override
+    public Completable saveTask(@NonNull final Task task) {
         Preconditions.checkNotNull(task);
-        Runnable diskCommand = () -> taskDao.updateCompleted(task.getId(), task.isCompleted());
-        executors.getDiskIO().execute(diskCommand);
+        return Completable.create(emitter -> {
+            taskDao.insert(task);
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        });
     }
 
     @Override
-    public void completeTask(@NonNull String taskId) {
-
-    }
-
-    @Override
-    public void activateTask(@NonNull final Task task) {
+    public Completable completeTask(@NonNull final Task task) {
         Preconditions.checkNotNull(task);
-        Runnable diskCommand = () -> taskDao.updateCompleted(task.getId(), false);
-        executors.getDiskIO().execute(diskCommand);
+        return Completable.create(emitter -> {
+            taskDao.updateCompleted(task.getId(), task.isCompleted());
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        });
     }
 
     @Override
-    public void activateTask(@NonNull String taskId) {
-
+    public Completable completeTask(@NonNull String taskId) {
+        return Completable.complete();
     }
 
     @Override
-    public void clearCompletedTasks() {
-        Runnable diskCommand = () -> taskDao.deleteCompleted();
-        executors.getDiskIO().execute(diskCommand);
+    public Completable activateTask(@NonNull final Task task) {
+        Preconditions.checkNotNull(task);
+        return Completable.create(emitter -> {
+            taskDao.updateCompleted(task.getId(), false);
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        });
     }
 
     @Override
-    public void refreshTasks() {
-
+    public Completable activateTask(@NonNull String taskId) {
+        return Completable.complete();
     }
 
     @Override
-    public void deleteAllTasks() {
-        Runnable diskCommand = () -> taskDao.deleteAll();
-        executors.getDiskIO().execute(diskCommand);
+    public Completable clearCompletedTasks() {
+        return Completable.create(emitter -> {
+            taskDao.deleteCompleted();
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        });
     }
 
     @Override
-    public void deleteTask(@NonNull final String taskId) {
-        Runnable diskCommand = () -> taskDao.deleteById(taskId);
-        executors.getDiskIO().execute(diskCommand);
+    public Completable refreshTasks() {
+        return Completable.complete();
+    }
+
+    @Override
+    public Completable deleteAllTasks() {
+        return Completable.create(emitter -> {
+            taskDao.deleteAll();
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public Completable deleteTask(@NonNull final String taskId) {
+        return Completable.create(emitter -> {
+            taskDao.deleteById(taskId);
+            if (!emitter.isDisposed()) {
+                emitter.onComplete();
+            }
+        });
     }
 }
