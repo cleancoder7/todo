@@ -1,7 +1,6 @@
 package com.dreampany.frame.ui.fragment;
 
 import android.app.Activity;
-import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -23,7 +22,7 @@ import java.io.Serializable;
 
 import dagger.android.support.DaggerFragment;
 
-public abstract class BaseFragment extends DaggerFragment implements LifecycleOwner {
+public abstract class BaseFragment extends DaggerFragment {
 
     protected ViewDataBinding binding;
     protected Task currentTask;

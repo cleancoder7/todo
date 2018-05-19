@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 /**
  * Created by Hawladar Roman on 1/5/18.
- * Dreampany
+ * Dreampany Ltd
  * dreampanymail@gmail.com
  */
 
@@ -26,7 +26,6 @@ public class EditTaskFragment extends BaseMenuFragment
 
     @Inject
     public EditTaskFragment() {
-
     }
 
     @Override
@@ -42,13 +41,11 @@ public class EditTaskFragment extends BaseMenuFragment
     @Override
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
-        //presenter.takeView(this);
         initView();
     }
 
     @Override
     protected void onStopUi() {
-        //presenter.dropView();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.dreampany.frame.ui.activity;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -15,9 +14,6 @@ import android.view.View;
 import android.view.Window;
 
 import com.afollestad.aesthetic.Aesthetic;
-import com.afollestad.aesthetic.AestheticKeyProvider;
-import com.afollestad.aesthetic.BottomNavBgMode;
-import com.afollestad.aesthetic.BottomNavIconTextMode;
 import com.dreampany.frame.R;
 import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.data.util.BarUtil;
@@ -30,13 +26,12 @@ import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-public abstract class BaseActivity extends DaggerAppCompatActivity implements LifecycleOwner {
+public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     protected ViewDataBinding binding;
     protected Task currentTask;
     protected BaseFragment currentFragment;
     protected boolean fireOnStartUi = true;
-
 
     protected int getLayoutId() {
         return 0;

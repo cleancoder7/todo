@@ -66,8 +66,6 @@ public class TasksFragment extends BaseMenuFragment implements
     @Override
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
-        taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
-        Timber.i("TaskViewModel - %s", taskViewModel);
         initView();
         initRecycler();
     }
@@ -95,7 +93,7 @@ public class TasksFragment extends BaseMenuFragment implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                openAddTaskUi();
+                taskViewModel.addNewTask();
                 break;
         }
     }
@@ -112,8 +110,13 @@ public class TasksFragment extends BaseMenuFragment implements
 
     private void initView() {
         binding = (FragmentHomeBinding) super.binding;
+        taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
+        Timber.i("TaskViewModel - %s", taskViewModel);
         binding.fab.setOnClickListener(this);
         ViewUtil.setSwipe(binding.swipeRefresh, this);
+        taskViewModel.getAddNewTaskEvent().observe(this, aVoid -> {
+            openAddTaskUi();
+        });
     }
 
     private void initRecycler() {

@@ -16,7 +16,7 @@ import dagger.Lazy;
 
 /**
  * Created by Hawladar Roman on 30/4/18.
- * Dreampany
+ * Dreampany Ltd
  * dreampanymail@gmail.com
  */
 

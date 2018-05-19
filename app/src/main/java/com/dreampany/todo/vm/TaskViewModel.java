@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
+import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.enums.Filter;
@@ -43,6 +44,8 @@ public final class TaskViewModel extends AndroidViewModel {
     private final BehaviorSubject<Boolean> loadingUi;
     @NonNull
     private final PublishSubject<Integer> snackbarMessage;
+    @NonNull
+    private final SingleLiveEvent<Void> addNewTaskEvent;
 
 
     @Inject
@@ -50,16 +53,23 @@ public final class TaskViewModel extends AndroidViewModel {
         super(application);
         this.facade = facade;
         this.taskRepository = taskRepository;
-        Timber.i("TaskRepository %s", taskRepository + "");
+        Timber.i("TaskRepository %s", taskRepository);
 
         filter = BehaviorSubject.createDefault(Filter.ALL);
         loadingUi = BehaviorSubject.createDefault(false);
         snackbarMessage = PublishSubject.create();
+        addNewTaskEvent = new SingleLiveEvent<>();
     }
 
-/*    public void addNewTask() {
-        mNavigator.addNewTask();
-    }*/
+    @NonNull
+    public SingleLiveEvent<Void> getAddNewTaskEvent()  {
+        return addNewTaskEvent;
+    }
+
+    @NonNull
+    public void addNewTask() {
+        addNewTaskEvent.call();
+    }
 
     public void handleActivityResult(int requestCode, int resultCode) {
         // If a task was successfully added, show snackbar
