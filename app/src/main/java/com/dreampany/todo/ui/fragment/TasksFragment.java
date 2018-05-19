@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -38,12 +39,14 @@ public class TasksFragment extends BaseMenuFragment implements
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = TasksFragment.class.getSimpleName();
+
     private FragmentHomeBinding binding;
     private TaskAdapter adapter;
     private final int offset = 4;
 
     @Inject
     ViewModelProvider.Factory factory;
+    @NonNull
     private TaskViewModel taskViewModel;
 
     @Inject

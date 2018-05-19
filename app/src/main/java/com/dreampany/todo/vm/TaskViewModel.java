@@ -2,8 +2,6 @@ package com.dreampany.todo.vm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import com.dreampany.frame.rx.RxFacade;
@@ -12,7 +10,8 @@ import com.dreampany.todo.data.source.TaskRepository;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 
@@ -22,52 +21,31 @@ import timber.log.Timber;
  * hawladar.roman@bjitgroup.com
  */
 
-public class TaskViewModel extends AndroidViewModel {
+public final class TaskViewModel extends AndroidViewModel {
 
-    private RxFacade facade;
-    private TaskRepository taskRepository;
-    private Filter filter;
+    @NonNull
+    private final RxFacade facade;
+    @NonNull
+    private final TaskRepository taskRepository;
 
-    private final CompositeDisposable disposable = new CompositeDisposable(); //to support rx facade
-    public final ObservableField<String> filterLabel = new ObservableField<>();
-    public final ObservableBoolean loadingUi = new ObservableBoolean(false);
+    @NonNull
+    private final BehaviorSubject<Filter> filter;
+    @NonNull
+    private final BehaviorSubject<Boolean> loadingUi;
+    @NonNull
+    private final PublishSubject<Integer> snackbarText;
+
 
     @Inject
     public TaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
         super(application);
         this.facade = facade;
         this.taskRepository = taskRepository;
-        Timber.i("TaskRepository %s", taskRepository+"");
-        setFiltering(Filter.ALL);
+        Timber.i("TaskRepository %s", taskRepository + "");
+
+        filter = BehaviorSubject.createDefault(Filter.ALL);
+        loadingUi = BehaviorSubject.createDefault(false);
+        snackbarText = PublishSubject.create();
     }
 
-    @Override
-    protected void onCleared() {
-        disposable.clear();
-    }
-
-    public void start() {
-        loadTasks(false);
-    }
-
-    public void loadTasks(boolean forceUpdate) {
-        loadTasks(forceUpdate, true);
-    }
-
-    public void setFiltering(Filter filter) {
-        this.filter = filter;
-
-        switch (filter) {
-            case ALL:
-                break;
-            case ACTIVE:
-                break;
-            case COMPLETED:
-                break;
-        }
-    }
-
-    private void loadTasks(boolean forceUpdate, boolean loadingUi) {
-
-    }
 }

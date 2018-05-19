@@ -22,6 +22,8 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  */
 public class TaskItem extends BaseItem<Task, TaskItem.ViewHolder> {
 
+
+
     public TaskItem(Task item) {
         super(item, R.layout.item_task);
     }
