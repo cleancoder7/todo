@@ -35,7 +35,7 @@
                     android:layout_height="350dp"
                     android:layout_below="@id/editTitle"
                     android:gravity="top"
-                    android:hint="@string/title_description" />
+                    android:hint="@string/description" />
 
             </LinearLayout>
         </ScrollView>

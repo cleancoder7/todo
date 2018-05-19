@@ -25,13 +25,13 @@ public class LocalTaskDataSource implements TaskDataSource {
     @NonNull
     @Override
     public Observable<List<Task>> getTasks() {
-        return taskDao.getTasks();
+        return taskDao.getTasks().toObservable();
     }
 
     @NonNull
     @Override
     public Observable<Task> getTask(@NonNull String taskId) {
-        return taskDao.getTaskById(taskId);
+        return taskDao.getTaskById(taskId).toObservable();
     }
 
     @NonNull

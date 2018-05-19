@@ -57,7 +57,7 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 
     //kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //test
     testImplementation 'junit:junit:4.12'

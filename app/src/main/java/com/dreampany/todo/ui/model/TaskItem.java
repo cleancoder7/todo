@@ -1,5 +1,6 @@
 package com.dreampany.todo.ui.model;
 
+import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -22,10 +23,16 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  */
 public class TaskItem extends BaseItem<Task, TaskItem.ViewHolder> {
 
-
+    @DrawableRes
+    private int background;
 
     public TaskItem(Task item) {
+        this(item, 0);
+    }
+
+    public TaskItem(Task item, int background) {
         super(item, R.layout.item_task);
+        this.background = background;
     }
 
     @Override

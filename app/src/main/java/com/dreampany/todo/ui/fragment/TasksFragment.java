@@ -68,8 +68,7 @@ public class TasksFragment extends BaseMenuFragment implements
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
-        Timber.i("TaskViewModel " + taskViewModel);
-        Timber.i("Application " + taskViewModel.getApplication());
+        Timber.i("TaskViewModel - %s", taskViewModel);
         initView();
         initRecycler();
     }
