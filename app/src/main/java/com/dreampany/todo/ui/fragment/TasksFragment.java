@@ -51,7 +51,6 @@ public class TasksFragment extends BaseMenuFragment implements
 
     @Inject
     public TasksFragment() {
-
     }
 
     @Override
