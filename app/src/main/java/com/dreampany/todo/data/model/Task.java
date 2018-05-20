@@ -12,6 +12,8 @@ import com.dreampany.frame.data.model.Base;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
+import java.util.UUID;
+
 @Entity
 public class Task extends Base {
 
@@ -25,13 +27,18 @@ public class Task extends Base {
     private boolean completed;
 
     @Ignore
-    public Task(@NonNull String id) {
-        this(id, null);
+    public Task() {
+        this((String) null);
     }
 
     @Ignore
-    public Task(@NonNull String id, @Nullable String title) {
-        this(id, title, null);
+    public Task(@Nullable String title) {
+        this(UUID.randomUUID().toString(), title, null);
+    }
+
+    @Ignore
+    public Task(@Nullable String title, @Nullable String description) {
+        this(UUID.randomUUID().toString(), title, null);
     }
 
     public Task(@NonNull String id, @Nullable String title, @Nullable String description) {
@@ -94,12 +101,14 @@ public class Task extends Base {
         return "Task: " + title;
     }
 
-    public void setTitle(@Nullable String title) {
+    public Task setTitle(@Nullable String title) {
         this.title = title;
+        return this;
     }
 
-    public void setDescription(@Nullable String description) {
+    public Task setDescription(@Nullable String description) {
         this.description = description;
+        return this;
     }
 
     public void setCompleted(boolean completed) {

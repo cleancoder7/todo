@@ -3,15 +3,22 @@ package com.dreampany.todo.vm;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
+import com.dreampany.todo.R;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
+import com.dreampany.todo.ui.model.EditTaskUiItem;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Function;
+import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 /**
@@ -29,6 +36,9 @@ public class EditTaskViewModel extends AndroidViewModel {
     private Task task;
 
     @NonNull
+    private final PublishSubject<Integer> snackbarMessage;
+
+    @NonNull
     private final SingleLiveEvent<Task> taskSavedEvent;
 
     @Inject
@@ -38,33 +48,53 @@ public class EditTaskViewModel extends AndroidViewModel {
         this.taskRepository = taskRepository;
         Timber.i("TaskRepository %s", taskRepository);
         taskSavedEvent = new SingleLiveEvent<>();
+        snackbarMessage = PublishSubject.create();
     }
 
     public void setTask(Task task) {
         this.task = task;
     }
 
-    public boolean isNewTask() {
+    @NonNull
+    public Observable<EditTaskUiItem> getUiItem() {
+        if (isNewTask()) {
+            return Observable.empty();
+        }
+        //return taskRepository.getTask(task.getId());
+        return null;
+    }
+
+    @NonNull
+    public Observable<Integer> getSnackbarText() {
+        return snackbarMessage.hide();
+    }
+
+    private boolean isNewTask() {
         return task == null;
     }
 
-/*    @NonNull
+    @NonNull
     public Completable saveTask(String title, String description) {
         return createTask(title, description)
-                .doOnCompleted(taskSavedEvent.setValue(task));
+                .doOnComplete(() -> taskSavedEvent.setValue(task));
     }
 
     private Completable createTask(String title, String description) {
-        Task newTask;
         if (isNewTask()) {
-            newTask = new Task(title, description);
-            if (newTask.isEmpty()) {
+            task = new Task(title, description);
+            if (task.isEmpty()) {
                 showSnackbar(R.string.empty_task_message);
                 return Completable.complete();
             }
         } else {
-            newTask = new Task(title, description, mTaskId);
+            task.setTitle(title).setDescription(description);
+            task.setTime(System.currentTimeMillis());
         }
-        return mTasksRepository.saveTask(newTask);
-    }*/
+        return taskRepository.saveTask(task);
+    }
+
+    private void showSnackbar(@StringRes int textId) {
+        snackbarMessage.onNext(textId);
+    }
+
 }

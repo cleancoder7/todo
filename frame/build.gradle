@@ -143,4 +143,7 @@ dependencies {
 
     //timber
     api 'com.jakewharton.timber:timber:4.7.0'
+
+    //joda time
+    api 'joda-time:joda-time:2.9.9'
 }
