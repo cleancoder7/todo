@@ -10,13 +10,12 @@ import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
-import com.dreampany.todo.ui.model.EditTaskUiItem;
+import com.dreampany.todo.ui.model.TaskItem;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
 import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
@@ -56,12 +55,15 @@ public class EditTaskViewModel extends AndroidViewModel {
     }
 
     @NonNull
-    public Observable<EditTaskUiItem> getUiItem() {
+    public Observable<TaskItem> getTaskItem() {
         if (isNewTask()) {
             return Observable.empty();
         }
-        //return taskRepository.getTask(task.getId());
-        return null;
+        return taskRepository
+                .getTask(task.getId())
+                .map(this::restoreTask)
+                .doOnError(throwable -> showSnackbar(R.string.empty_task_message))
+                .map(TaskItem::new);
     }
 
     @NonNull
@@ -79,6 +81,15 @@ public class EditTaskViewModel extends AndroidViewModel {
                 .doOnComplete(() -> taskSavedEvent.setValue(task));
     }
 
+
+    private Task restoreTask(Task task) {
+        String title = this.task.getTitle() != null ? this.task.getTitle() : task.getTitle();
+        String description = this.task.getDescription() != null ? this.task.getDescription() : task.getDescription();
+
+        return new Task(title, description);
+    }
+
+
     private Completable createTask(String title, String description) {
         if (isNewTask()) {
             task = new Task(title, description);
@@ -92,6 +103,7 @@ public class EditTaskViewModel extends AndroidViewModel {
         }
         return taskRepository.saveTask(task);
     }
+
 
     private void showSnackbar(@StringRes int textId) {
         snackbarMessage.onNext(textId);
