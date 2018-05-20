@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.dreampany.frame.injector.ViewModelKey;
 import com.dreampany.todo.factory.TaskViewModelFactory;
+import com.dreampany.todo.vm.EditTaskViewModel;
 import com.dreampany.todo.vm.TaskViewModel;
 
 import dagger.Binds;
@@ -24,6 +25,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TaskViewModel.class)
     abstract ViewModel bindTaskViewModel(TaskViewModel taskViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditTaskViewModel.class)
+    abstract ViewModel bindTaskViewModel(EditTaskModule editTaskModule);
 
     @Binds
     abstract ViewModelProvider.Factory bindTaskViewModelFactory(TaskViewModelFactory factory);

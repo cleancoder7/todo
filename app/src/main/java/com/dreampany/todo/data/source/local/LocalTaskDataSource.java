@@ -6,15 +6,19 @@ import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskDataSource;
 import com.google.common.base.Preconditions;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import timber.log.Timber;
 
 @Singleton
 public class LocalTaskDataSource implements TaskDataSource {
+
+    private static final String TAG = LocalTaskDataSource.class.getSimpleName();
 
     private final TaskDao taskDao;
 
@@ -40,6 +44,7 @@ public class LocalTaskDataSource implements TaskDataSource {
         Preconditions.checkNotNull(task);
         return Completable.fromAction(() -> {
             taskDao.insert(task);
+            Timber.tag(TAG).i("Task (%s) is inserted", task.getId());
         });
     }
 
@@ -49,6 +54,7 @@ public class LocalTaskDataSource implements TaskDataSource {
         Preconditions.checkNotNull(tasks);
         return Completable.fromAction(() -> {
             taskDao.insert(tasks);
+            Timber.tag(TAG).i("Tasks are inserted (%d)", tasks.size());
         });
     }
 

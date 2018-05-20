@@ -1,15 +1,25 @@
 package com.dreampany.todo.ui.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.View;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
 import com.dreampany.todo.databinding.FragmentEditTaskBinding;
+import com.dreampany.todo.ui.model.TaskItem;
+import com.dreampany.todo.vm.EditTaskViewModel;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 
 /**
@@ -23,6 +33,11 @@ public class EditTaskFragment extends BaseMenuFragment
         implements View.OnClickListener {
 
     private FragmentEditTaskBinding binding;
+    @Inject
+    ViewModelProvider.Factory factory;
+    @NonNull
+    private EditTaskViewModel viewModel;
+
 
     @Inject
     public EditTaskFragment() {
@@ -42,6 +57,7 @@ public class EditTaskFragment extends BaseMenuFragment
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
         initView();
+        viewModel.loadTaskItem();
     }
 
     @Override
@@ -52,18 +68,51 @@ public class EditTaskFragment extends BaseMenuFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
-                doneTask();
+                saveTask();
                 break;
         }
     }
 
     private void initView() {
         binding = (FragmentEditTaskBinding) super.binding;
+        binding.setLifecycleOwner(this);
+        viewModel = ViewModelProviders.of(this, factory).get(EditTaskViewModel.class);
+        Timber.i("EditTaskViewModel - %s", viewModel);
         binding.fab.setOnClickListener(this);
 
+        viewModel.getResponse().observe(this, this::processResponse);
     }
 
-    private void doneTask() {
-        //presenter.saveTask(binding.editTitle.getText().toString(), binding.editDescription.getText().toString());
+    private void saveTask() {
+        viewModel.saveTask(binding.editTitle.getText().toString(), binding.editDescription.getText().toString());
     }
+
+    private void processResponse(Response<TaskItem> response) {
+        switch (response.status) {
+            case LOADING:
+                //renderLoadingState();
+                Timber.i("LOADING");
+                break;
+
+            case SUCCESS:
+                //renderDataState(response.data);
+                Timber.i("SUCCESS");
+                break;
+
+            case ERROR:
+                //renderErrorState(response.error);
+                Timber.i("ERROR");
+                break;
+        }
+    }
+
+    private void updateUi(TaskItem item) {
+        binding.editTitle.setText(item.getItem().getTitle());
+        binding.editDescription.setText(item.getItem().getDescription());
+    }
+
+    private void showSnackbar(@StringRes int textId) {
+        Snackbar.make(binding.editTitle, textId, Snackbar.LENGTH_LONG).show();
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.dreampany.frame.data.enums;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by Hawladar Roman on 5/17/2018.
@@ -9,13 +8,13 @@ import android.os.Parcelable;
  * hawladar.roman@bjitgroup.com
  */
 
-public enum Status implements Type {
-    SUCCESS, ERROR, LOADING, EMPTY;
+public enum Kind implements Type {
+    READ, WRITE;
 
     @Override
     public boolean equals(Type type) {
-        if (Status.class.isInstance(type)) {
-            Status item = (Status) type;
+        if (Kind.class.isInstance(type)) {
+            Kind item = (Kind) type;
             return compareTo(item) == 0;
         }
         return false;
@@ -46,26 +45,24 @@ public enum Status implements Type {
         return 0;
     }
 
-    public static final Parcelable.Creator<Status> CREATOR = new Parcelable.Creator<Status>() {
+    public static final Creator<Kind> CREATOR = new Creator<Kind>() {
 
-        public Status createFromParcel(Parcel in) {
-            return Status.valueOf(in.readInt());
+        public Kind createFromParcel(Parcel in) {
+            return Kind.valueOf(in.readInt());
         }
 
-        public Status[] newArray(int size) {
-            return new Status[size];
+        public Kind[] newArray(int size) {
+            return new Kind[size];
         }
 
     };
 
-    public static Status valueOf(int ordinal) {
+    public static Kind valueOf(int ordinal) {
         switch (ordinal) {
             case 0:
-                return SUCCESS;
+                return READ;
             case 1:
-                return ERROR;
-            case 2:
-                return LOADING;
+                return WRITE;
             default:
                 return null;
         }

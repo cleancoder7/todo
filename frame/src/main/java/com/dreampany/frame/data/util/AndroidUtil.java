@@ -51,6 +51,13 @@ public final class AndroidUtil {
         return uiHandler;
     }
 
+    public static boolean isUiThread() {
+        if (hasMarshmallow()) {
+           return Looper.getMainLooper().isCurrentThread();
+        }
+        return Thread.currentThread() == Looper.getMainLooper().getThread();
+    }
+
     public static boolean isScreenOn(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
@@ -115,5 +122,7 @@ public final class AndroidUtil {
                 .build()
                 .start();
     }
+
+
 
 }

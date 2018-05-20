@@ -3,6 +3,7 @@ package com.dreampany.frame.data.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.enums.Status;
 import com.google.common.base.Objects;
 
@@ -14,6 +15,10 @@ import com.google.common.base.Objects;
 
 public class Response<T> {
 
+
+    @NonNull
+    public final Kind kind;
+
     @NonNull
     public final Status status;
 
@@ -23,7 +28,8 @@ public class Response<T> {
     @Nullable
     public final T data;
 
-    private Response(@NonNull Status status, @Nullable String message, @Nullable T data) {
+    private Response(@NonNull Kind kind, @NonNull Status status, @Nullable String message, @Nullable T data) {
+        this.kind = kind;
         this.status = status;
         this.message = message;
         this.data = data;
@@ -61,15 +67,19 @@ public class Response<T> {
                 '}';
     }
 
-    public static <T> Response<T> success(@Nullable T data) {
-        return new Response<>(Status.SUCCESS, null, data);
+    public static <T> Response<T> loading(@NonNull Kind kind, @Nullable T data) {
+        return new Response<>(kind, Status.LOADING, null, data);
     }
 
-    public static <T> Response<T> error(String message, @Nullable T data) {
-        return new Response<>(Status.ERROR, message, data);
+    public static <T> Response<T> error(Kind kind, String message) {
+        return new Response<>(kind, Status.ERROR, message, null);
     }
 
-    public static <T> Response<T> loading(@Nullable T data) {
-        return new Response<>(Status.LOADING, null, data);
+    public static <T> Response<T> success(@NonNull Kind kind, @Nullable T data) {
+        return new Response<>(kind, Status.SUCCESS, null, data);
+    }
+
+    public static <T> Response<T> empty(@NonNull Kind kind) {
+        return new Response<>(kind, Status.EMPTY, null, null);
     }
 }
