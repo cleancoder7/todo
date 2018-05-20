@@ -103,6 +103,11 @@ public class EditTaskFragment extends BaseMenuFragment
                 //renderErrorState(response.error);
                 Timber.i("ERROR");
                 break;
+
+            case EMPTY:
+                //renderErrorState(response.error);
+                Timber.i("EMPTY");
+                break;
         }
     }
 

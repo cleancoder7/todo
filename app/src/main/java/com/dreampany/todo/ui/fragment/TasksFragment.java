@@ -142,10 +142,7 @@ public class TasksFragment extends BaseMenuFragment implements
     }
 
     private void openAddTaskUi() {
-        UiTask<Task> task = new UiTask<>(false);
-        task.setUiType(UiType.TASK);
-        task.setSubtype(UiSubtype.EDIT);
-        openActivityParcelable(ToolsActivity.class, task);
+        openEditTaskUi(null);
     }
 
     private void openEditTaskUi(Task item) {

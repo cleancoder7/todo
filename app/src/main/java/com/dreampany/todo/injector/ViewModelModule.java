@@ -29,8 +29,8 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(EditTaskViewModel.class)
-    abstract ViewModel bindTaskViewModel(EditTaskModule editTaskModule);
+    abstract ViewModel bindEditTaskViewModel(EditTaskViewModel editTaskViewModel);
 
     @Binds
-    abstract ViewModelProvider.Factory bindTaskViewModelFactory(TaskViewModelFactory factory);
+    abstract ViewModelProvider.Factory bindViewModelFactory(TaskViewModelFactory factory);
 }

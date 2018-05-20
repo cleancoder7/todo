@@ -27,6 +27,7 @@ public class UiTask<T extends BaseParcel> extends Task<T> {
         super(in);
         fullscreen = in.readByte() != 0;
         type = UiType.valueOf(in.readInt());
+        subtype = UiSubtype.valueOf(in.readInt());
     }
 
     @Override
@@ -34,6 +35,7 @@ public class UiTask<T extends BaseParcel> extends Task<T> {
         super.writeToParcel(dest, flags);
         dest.writeByte((byte) (fullscreen ? 1 : 0));
         dest.writeInt(type == null ? -1 : type.ordinal());
+        dest.writeInt(subtype == null ? -1 : subtype.ordinal());
     }
 
     public static final Creator<UiTask> CREATOR = new Creator<UiTask>() {
