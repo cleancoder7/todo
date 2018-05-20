@@ -37,7 +37,6 @@ public class EditTaskViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Response<TaskItem>> response;
 
-
     @Inject
     public EditTaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
         super(application);

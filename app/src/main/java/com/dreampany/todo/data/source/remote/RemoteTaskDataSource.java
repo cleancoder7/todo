@@ -41,13 +41,13 @@ public class RemoteTaskDataSource implements TaskDataSource {
     @NonNull
     @Override
     public Completable saveTask(@NonNull Task task) {
-        return null;
+        return Completable.complete();
     }
 
     @NonNull
     @Override
     public Completable saveTasks(@NonNull List<Task> tasks) {
-        return null;
+        return Completable.complete();
     }
 
     @NonNull

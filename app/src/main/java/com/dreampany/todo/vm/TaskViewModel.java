@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
@@ -39,6 +40,9 @@ public final class TaskViewModel extends AndroidViewModel {
     private final TaskRepository taskRepository;
 
     @NonNull
+    private final CompositeDisposable disposables;
+
+    @NonNull
     private final BehaviorSubject<Filter> filter;
     @NonNull
     private final BehaviorSubject<Boolean> loadingUi;
@@ -54,11 +58,16 @@ public final class TaskViewModel extends AndroidViewModel {
         this.facade = facade;
         this.taskRepository = taskRepository;
         Timber.i("TaskRepository %s", taskRepository);
-
+        disposables = new CompositeDisposable();
         filter = BehaviorSubject.createDefault(Filter.ALL);
         loadingUi = BehaviorSubject.createDefault(false);
         snackbarMessage = PublishSubject.create();
         addNewTaskEvent = new SingleLiveEvent<>();
+    }
+
+    @Override
+    protected void onCleared() {
+        disposables.clear();
     }
 
     @NonNull

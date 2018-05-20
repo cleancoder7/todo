@@ -47,7 +47,7 @@ public class TasksFragment extends BaseMenuFragment implements
     @Inject
     ViewModelProvider.Factory factory;
     @NonNull
-    private TaskViewModel taskViewModel;
+    private TaskViewModel viewModel;
 
     @Inject
     public TasksFragment() {
@@ -68,6 +68,7 @@ public class TasksFragment extends BaseMenuFragment implements
         setTitle(R.string.title_home);
         initView();
         initRecycler();
+
     }
 
     @Override
@@ -93,7 +94,7 @@ public class TasksFragment extends BaseMenuFragment implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                taskViewModel.addNewTask();
+                viewModel.addNewTask();
                 break;
         }
     }
@@ -110,11 +111,11 @@ public class TasksFragment extends BaseMenuFragment implements
 
     private void initView() {
         binding = (FragmentHomeBinding) super.binding;
-        taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
-        Timber.i("TaskViewModel - %s", taskViewModel);
+        binding.setLifecycleOwner(this);
+        viewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         binding.fab.setOnClickListener(this);
         ViewUtil.setSwipe(binding.swipeRefresh, this);
-        taskViewModel.getAddNewTaskEvent().observe(this, aVoid -> {
+        viewModel.getAddNewTaskEvent().observe(this, voidParam -> {
             openAddTaskUi();
         });
     }
