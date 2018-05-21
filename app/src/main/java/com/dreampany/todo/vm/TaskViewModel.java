@@ -23,10 +23,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 
@@ -52,10 +50,6 @@ public final class TaskViewModel extends AndroidViewModel {
     @NonNull
     private final BehaviorSubject<Filter> filter;
     @NonNull
-    private final BehaviorSubject<Boolean> loadingUi;
-    @NonNull
-    private final PublishSubject<Integer> snackbarMessage;
-    @NonNull
     private final SingleLiveEvent<Void> addNewTaskEvent;
 
 
@@ -68,8 +62,6 @@ public final class TaskViewModel extends AndroidViewModel {
         disposables = new CompositeDisposable();
         response = new MutableLiveData<>();
         filter = BehaviorSubject.createDefault(Filter.ALL);
-        loadingUi = BehaviorSubject.createDefault(false);
-        snackbarMessage = PublishSubject.create();
         addNewTaskEvent = new SingleLiveEvent<>();
     }
 
@@ -96,7 +88,7 @@ public final class TaskViewModel extends AndroidViewModel {
     public void handleActivityResult(int requestCode, int resultCode) {
         // If a task was successfully added, show snackbar
         if (/*AddEditTaskActivity.REQUEST_ADD_TASK == requestCode &&*/ Activity.RESULT_OK == resultCode) {
-            snackbarMessage.onNext(R.string.successfully_saved_task_message);
+           // snackbarMessage.onNext(R.string.successfully_saved_task_message);
         }
     }
 
@@ -149,19 +141,9 @@ public final class TaskViewModel extends AndroidViewModel {
         return Completable.fromAction(this::clearCompletedTasksAndNotify);
     }
 
-    @NonNull
-    public Observable<Integer> getSnackbarMessage() {
-        return snackbarMessage.serialize();
-    }
-
-    @NonNull
-    public Observable<Boolean> getLoadingUi() {
-        return loadingUi.serialize();
-    }
-
     private void clearCompletedTasksAndNotify() {
         taskRepository.clearCompletedTasks();
-        snackbarMessage.onNext(R.string.completed_tasks_cleared);
+        //snackbarMessage.onNext(R.string.completed_tasks_cleared);
     }
 
 }
