@@ -1,6 +1,5 @@
 package com.dreampany.todo.data.source.remote;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.dreampany.todo.data.model.Task;
@@ -11,7 +10,6 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**

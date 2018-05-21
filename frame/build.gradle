@@ -75,6 +75,7 @@ dependencies {
     api 'com.android.support:preference-v7:27.1.1'
     api 'com.android.support:support-v13:27.1.1'
     api 'com.android.support:preference-v14:27.1.1'
+    api 'com.android.support:support-compat:27.1.1'
     api 'com.android.support:support-vector-drawable:27.1.1'
     api 'com.android.support:animated-vector-drawable:27.1.1'
     api 'com.android.support:support-dynamic-animation:27.1.1'
@@ -86,23 +87,23 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.2'
 
     //android arch - lifecycle, room
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
-    implementation 'android.arch.lifecycle:runtime:1.1.1'
     kapt 'android.arch.lifecycle:compiler:1.1.1'
+    api 'android.arch.lifecycle:extensions:1.1.1'
+    api 'android.arch.lifecycle:runtime:1.1.1'
 
-    implementation 'android.arch.persistence.room:runtime:1.1.0'
     kapt 'android.arch.persistence.room:compiler:1.1.0'
-    implementation 'android.arch.persistence.room:rxjava2:1.1.0'
-    implementation 'android.arch.persistence.room:guava:1.1.0'
+    api 'android.arch.persistence.room:runtime:1.1.0'
+    api 'android.arch.persistence.room:rxjava2:1.1.0'
+    api 'android.arch.persistence.room:guava:1.1.0'
 
     //dagger core
     kapt 'com.google.dagger:dagger-compiler:2.16'
-    implementation 'com.google.dagger:dagger:2.16'
+    api 'com.google.dagger:dagger:2.16'
 
     //dagger android
     kapt 'com.google.dagger:dagger-android-processor:2.16'
-    implementation 'com.google.dagger:dagger-android-support:2.16'
-    implementation 'com.google.dagger:dagger-android:2.16'
+    api 'com.google.dagger:dagger-android-support:2.16'
+    api 'com.google.dagger:dagger-android:2.16'
 
     //rx
     api 'io.reactivex.rxjava2:rxjava:2.1.12'

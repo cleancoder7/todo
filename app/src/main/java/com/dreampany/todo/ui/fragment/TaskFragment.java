@@ -1,11 +1,9 @@
 package com.dreampany.todo.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.View;
 
@@ -14,7 +12,7 @@ import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
 import com.dreampany.todo.ui.model.TaskItem;
-import com.dreampany.todo.vm.EditTaskViewModel;
+import com.dreampany.todo.vm.TaskViewModel;
 
 import javax.inject.Inject;
 
@@ -31,11 +29,11 @@ import timber.log.Timber;
 public class TaskFragment extends BaseMenuFragment
         implements View.OnClickListener {
 
-    private FragmentTaskBinding binding;
+   // private FragmentTaskBinding binding;
     @Inject
     ViewModelProvider.Factory factory;
     @NonNull
-    private EditTaskViewModel viewModel;
+    private TaskViewModel viewModel;
 
 
     @Inject
@@ -56,7 +54,7 @@ public class TaskFragment extends BaseMenuFragment
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
         initView();
-        viewModel.loadTaskItem();
+
     }
 
     @Override
@@ -73,17 +71,17 @@ public class TaskFragment extends BaseMenuFragment
     }
 
     private void initView() {
-        binding = (FragmentTaskBinding) super.binding;
-        binding.setLifecycleOwner(this);
-        viewModel = ViewModelProviders.of(this, factory).get(EditTaskViewModel.class);
+       // binding = (FragmentTaskBinding) super.binding;
+/*        binding.setLifecycleOwner(this);
+        viewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         Timber.i("EditTaskViewModel - %s", viewModel);
         binding.fab.setOnClickListener(this);
 
-        viewModel.getResponse().observe(this, this::processResponse);
+        viewModel.getResponse().observe(this, this::processResponse);*/
     }
 
     private void saveTask() {
-        viewModel.saveTask(binding.editTitle.getText().toString(), binding.editDescription.getText().toString());
+       // viewModel.saveTask(binding.editTitle.getText().toString(), binding.editDescription.getText().toString());
     }
 
     private void processResponse(Response<TaskItem> response) {
@@ -111,12 +109,12 @@ public class TaskFragment extends BaseMenuFragment
     }
 
     private void updateUi(TaskItem item) {
-        binding.editTitle.setText(item.getItem().getTitle());
-        binding.editDescription.setText(item.getItem().getDescription());
+        //binding.editTitle.setText(item.getItem().getTitle());
+       // binding.editDescription.setText(item.getItem().getDescription());
     }
 
     private void showSnackbar(@StringRes int textId) {
-        Snackbar.make(binding.editTitle, textId, Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(binding.editTitle, textId, Snackbar.LENGTH_LONG).show();
     }
 
 }

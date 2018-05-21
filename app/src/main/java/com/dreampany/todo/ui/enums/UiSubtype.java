@@ -10,7 +10,7 @@ import com.dreampany.frame.data.enums.Type;
  * dreampanymail@gmail.com
  */
 public enum UiSubtype implements Type {
-    EDIT;
+    EDIT, VIEW;
 
     @Override
     public boolean equals(Type type) {
@@ -62,6 +62,8 @@ public enum UiSubtype implements Type {
         switch (ordinal) {
             case 0:
                 return EDIT;
+            case 1:
+                return VIEW;
             default:
                 return null;
         }

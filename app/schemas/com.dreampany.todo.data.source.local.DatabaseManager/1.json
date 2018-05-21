@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7e4e8bfeb8bc783a9d2b8d8a149107a4",
+    "identityHash": "85050297eca9013db62a2f6ec99b74a6",
     "entities": [
       {
         "tableName": "Task",
@@ -51,7 +51,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7e4e8bfeb8bc783a9d2b8d8a149107a4\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"85050297eca9013db62a2f6ec99b74a6\")"
     ]
   }
 }

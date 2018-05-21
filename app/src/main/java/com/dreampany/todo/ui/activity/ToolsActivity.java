@@ -7,6 +7,7 @@ import com.dreampany.todo.R;
 import com.dreampany.todo.ui.enums.UiSubtype;
 import com.dreampany.todo.ui.enums.UiType;
 import com.dreampany.todo.ui.fragment.EditTaskFragment;
+import com.dreampany.todo.ui.fragment.TaskFragment;
 import com.dreampany.todo.ui.model.UiTask;
 
 import javax.inject.Inject;
@@ -25,6 +26,8 @@ public class ToolsActivity extends BaseMenuActivity {
 
     @Inject
     Lazy<EditTaskFragment> editTaskFragmentProvider;
+    @Inject
+    Lazy<TaskFragment> taskFragmentProvider;
 
     @Override
     protected int getLayoutId() {
@@ -59,6 +62,10 @@ public class ToolsActivity extends BaseMenuActivity {
                 switch (subtype) {
                     case EDIT: {
                         commitFragment(EditTaskFragment.class, editTaskFragmentProvider, R.id.layout, task);
+                    }
+                    break;
+                    case VIEW: {
+                        commitFragment(TaskFragment.class, taskFragmentProvider, R.id.layout, task);
                     }
                     break;
                 }

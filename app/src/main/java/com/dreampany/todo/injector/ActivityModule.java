@@ -19,6 +19,6 @@ abstract class ActivityModule {
     abstract NavigationActivity navigationActivity();
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = {EditTaskModule.class})
+    @ContributesAndroidInjector(modules = {EditTaskModule.class, TaskModule.class})
     abstract ToolsActivity toolsActivity();
 }
