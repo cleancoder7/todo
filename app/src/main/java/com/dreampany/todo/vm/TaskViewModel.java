@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.rx.RxFacade;
+import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
@@ -25,33 +26,19 @@ import timber.log.Timber;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class TaskViewModel extends AndroidViewModel {
+public class TaskViewModel extends BaseViewModel {
 
-    @NonNull
-    private final RxFacade facade;
     @NonNull
     private final TaskRepository taskRepository;
-    @NonNull
-    private final CompositeDisposable disposables;
     private Task task;
-
     private final MutableLiveData<Response<TaskItem>> response;
 
     @Inject
     public TaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
-        super(application);
-        this.facade = facade;
+        super(application, facade);
         this.taskRepository = taskRepository;
-        disposables = new CompositeDisposable();
-        //taskSavedEvent = new SingleLiveEvent<>();
         response = new MutableLiveData<>();
         Timber.i("TaskRepository %s", taskRepository);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        disposables.clear();
     }
 
     public void setTask(Task task) {

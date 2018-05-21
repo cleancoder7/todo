@@ -1,13 +1,13 @@
 package com.dreampany.todo.vm;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.rx.RxFacade;
+import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
@@ -16,7 +16,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -25,33 +24,19 @@ import timber.log.Timber;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class EditTaskViewModel extends AndroidViewModel {
+public class EditTaskViewModel extends BaseViewModel {
 
-    @NonNull
-    private final RxFacade facade;
     @NonNull
     private final TaskRepository taskRepository;
-    @NonNull
-    private final CompositeDisposable disposables;
     private Task task;
-
     private final MutableLiveData<Response<TaskItem>> response;
 
     @Inject
     public EditTaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
-        super(application);
-        this.facade = facade;
+        super(application, facade);
         this.taskRepository = taskRepository;
-        disposables = new CompositeDisposable();
-        //taskSavedEvent = new SingleLiveEvent<>();
         response = new MutableLiveData<>();
         Timber.i("TaskRepository %s", taskRepository);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        disposables.clear();
     }
 
     public void setTask(Task task) {

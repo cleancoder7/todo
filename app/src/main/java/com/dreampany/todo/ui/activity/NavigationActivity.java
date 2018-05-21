@@ -30,12 +30,12 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
 
     @Override
     protected int getNavigationViewId() {
-        return R.id.navigationView;
+        return R.id.navigation_view;
     }
 
     @Override
     protected int getDefaultSelectedNavItemId() {
-        return R.id.item_task;
+        return R.id.item_tasks;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     @Override
     protected void onNavigationItem(int navItemId) {
         switch (navItemId) {
-            case R.id.item_task:
+            case R.id.item_tasks:
                 commitFragment(TasksFragment.class, tasksFragmentProvider, R.id.layout);
                 break;
             case R.id.item_more:

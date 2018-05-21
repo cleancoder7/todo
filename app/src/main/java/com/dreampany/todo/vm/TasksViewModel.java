@@ -13,6 +13,7 @@ import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
+import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.enums.Filter;
 import com.dreampany.todo.data.model.Task;
@@ -40,19 +41,12 @@ import timber.log.Timber;
  * hawladar.roman@bjitgroup.com
  */
 
-public final class TasksViewModel extends AndroidViewModel {
+public final class TasksViewModel extends BaseViewModel {
 
     private static final String KEY_FILTER = "filter";
     @NonNull
-    private final RxFacade facade;
-    @NonNull
     private final TaskRepository taskRepository;
-
-    @NonNull
-    private final CompositeDisposable disposables;
-
     private final MutableLiveData<Response<List<TaskItem>>> liveResponse;
-
     @NonNull
     private final BehaviorSubject<Filter> filter;
     @NonNull
@@ -61,19 +55,12 @@ public final class TasksViewModel extends AndroidViewModel {
 
     @Inject
     public TasksViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
-        super(application);
-        this.facade = facade;
+        super(application, facade);
         this.taskRepository = taskRepository;
-        Timber.i("TaskRepository %s", taskRepository);
-        disposables = new CompositeDisposable();
         liveResponse = new MutableLiveData<>();
         filter = BehaviorSubject.createDefault(Filter.ALL);
         addNewTaskEvent = new SingleLiveEvent<>();
-    }
-
-    @Override
-    protected void onCleared() {
-        disposables.clear();
+        Timber.i("TaskRepository %s", taskRepository);
     }
 
     public MutableLiveData<Response<List<TaskItem>>> getLiveResponse() {
@@ -92,9 +79,7 @@ public final class TasksViewModel extends AndroidViewModel {
                 .subscribeOn(facade.io())
                 .observeOn(facade.ui())
                 .subscribe(
-                        response -> {
-                            liveResponse.setValue(response);
-                        },
+                        liveResponse::setValue,
                         throwable -> Response.error(Kind.READ, throwable.getMessage()));
         disposables.add(disposable);
     }
