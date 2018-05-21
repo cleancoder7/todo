@@ -79,7 +79,6 @@ public final class TaskViewModel extends AndroidViewModel {
         return response;
     }
 
-
     @NonNull
     public SingleLiveEvent<Void> getAddNewTaskEvent() {
         return addNewTaskEvent;
@@ -92,8 +91,8 @@ public final class TaskViewModel extends AndroidViewModel {
                 .subscribe(
                         items -> {
                             response.setValue(Response.success(Kind.READ, items));
-                        }
-                        , throwable -> Response.error(Kind.READ, throwable.getMessage()));
+                        },
+                        throwable -> Response.error(Kind.READ, throwable.getMessage()));
         disposables.add(disposable);
     }
 

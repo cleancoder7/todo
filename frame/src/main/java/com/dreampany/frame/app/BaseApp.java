@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.dreampany.frame.BuildConfig;
 
 import dagger.android.support.DaggerApplication;
@@ -31,6 +32,8 @@ public abstract class BaseApp extends DaggerApplication {
         if (isDebug()) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        TypefaceProvider.registerDefaultIconSets();
     }
 
     private void setStrictMode() {

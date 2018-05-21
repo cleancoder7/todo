@@ -146,4 +146,7 @@ dependencies {
 
     //joda time
     api 'joda-time:joda-time:2.9.9'
+
+    //bootstrap
+    api 'com.beardedhen:androidbootstrap:2.3.2'
 }

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.data.util.ViewUtil;
 import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
@@ -25,6 +26,8 @@ import com.dreampany.todo.ui.enums.UiType;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
 import com.dreampany.todo.vm.TaskViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -118,6 +121,7 @@ public class TasksFragment extends BaseMenuFragment implements
         viewModel.getAddNewTaskEvent().observe(this, voidParam -> {
             openAddTaskUi();
         });
+        viewModel.getResponse().observe(this, this::processResponse);
     }
 
     private void initRecycler() {
@@ -154,4 +158,27 @@ public class TasksFragment extends BaseMenuFragment implements
         openActivityParcelable(ToolsActivity.class, task);
     }
 
+    private void processResponse(Response<List<TaskItem>> response) {
+        switch (response.status) {
+            case READING:
+                //renderLoadingState();
+                Timber.i("READING");
+                break;
+
+            case SUCCESS:
+                //renderDataState(response.data);
+                Timber.i("SUCCESS");
+                break;
+
+            case ERROR:
+                //renderErrorState(response.error);
+                Timber.i("ERROR");
+                break;
+
+            case EMPTY:
+                //renderErrorState(response.error);
+                Timber.i("EMPTY");
+                break;
+        }
+    }
 }
