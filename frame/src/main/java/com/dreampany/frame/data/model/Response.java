@@ -68,7 +68,7 @@ public class Response<T> {
     }
 
     public static <T> Response<T> loading(@NonNull Kind kind, @Nullable T data) {
-        return new Response<>(kind, Status.LOADING, null, data);
+        return new Response<>(kind, Status.READING, null, data);
     }
 
     public static <T> Response<T> error(Kind kind, String message) {

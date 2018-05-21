@@ -89,9 +89,9 @@ public class EditTaskFragment extends BaseMenuFragment
 
     private void processResponse(Response<TaskItem> response) {
         switch (response.status) {
-            case LOADING:
+            case READING:
                 //renderLoadingState();
-                Timber.i("LOADING");
+                Timber.i("READING");
                 break;
 
             case SUCCESS:

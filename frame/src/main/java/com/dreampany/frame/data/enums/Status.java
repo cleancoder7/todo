@@ -10,7 +10,7 @@ import android.os.Parcelable;
  */
 
 public enum Status implements Type {
-    SUCCESS, ERROR, LOADING, EMPTY;
+    SUCCESS, ERROR, READING, EMPTY;
 
     @Override
     public boolean equals(Type type) {
@@ -65,7 +65,7 @@ public enum Status implements Type {
             case 1:
                 return ERROR;
             case 2:
-                return LOADING;
+                return READING;
             default:
                 return null;
         }

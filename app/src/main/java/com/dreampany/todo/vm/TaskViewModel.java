@@ -3,17 +3,22 @@ package com.dreampany.todo.vm;
 import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.enums.Filter;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
+import com.dreampany.todo.ui.model.TaskItem;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -42,6 +47,8 @@ public final class TaskViewModel extends AndroidViewModel {
     @NonNull
     private final CompositeDisposable disposables;
 
+    private final MutableLiveData<Response<List<TaskItem>>> response;
+
     @NonNull
     private final BehaviorSubject<Filter> filter;
     @NonNull
@@ -59,6 +66,7 @@ public final class TaskViewModel extends AndroidViewModel {
         this.taskRepository = taskRepository;
         Timber.i("TaskRepository %s", taskRepository);
         disposables = new CompositeDisposable();
+        response = new MutableLiveData<>();
         filter = BehaviorSubject.createDefault(Filter.ALL);
         loadingUi = BehaviorSubject.createDefault(false);
         snackbarMessage = PublishSubject.create();
@@ -69,6 +77,11 @@ public final class TaskViewModel extends AndroidViewModel {
     protected void onCleared() {
         disposables.clear();
     }
+
+    public MutableLiveData<Response<List<TaskItem>>> getResponse() {
+        return response;
+    }
+
 
     @NonNull
     public SingleLiveEvent<Void> getAddNewTaskEvent()  {
