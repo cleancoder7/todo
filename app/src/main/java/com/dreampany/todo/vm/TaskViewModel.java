@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
+import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
@@ -23,7 +24,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import timber.log.Timber;
 
@@ -76,8 +81,20 @@ public final class TaskViewModel extends AndroidViewModel {
 
 
     @NonNull
-    public SingleLiveEvent<Void> getAddNewTaskEvent()  {
+    public SingleLiveEvent<Void> getAddNewTaskEvent() {
         return addNewTaskEvent;
+    }
+
+    public void loadTaskItems() {
+        Disposable disposable = getTaskItems()
+                .subscribeOn(facade.io())
+                .observeOn(facade.ui())
+                .subscribe(
+                        items -> {
+                            response.setValue(Response.success(Kind.READ, items));
+                        }
+                        , throwable -> Response.error(Kind.READ, throwable.getMessage()));
+        disposables.add(disposable);
     }
 
     @NonNull
@@ -88,7 +105,7 @@ public final class TaskViewModel extends AndroidViewModel {
     public void handleActivityResult(int requestCode, int resultCode) {
         // If a task was successfully added, show snackbar
         if (/*AddEditTaskActivity.REQUEST_ADD_TASK == requestCode &&*/ Activity.RESULT_OK == resultCode) {
-           // snackbarMessage.onNext(R.string.successfully_saved_task_message);
+            // snackbarMessage.onNext(R.string.successfully_saved_task_message);
         }
     }
 
@@ -144,6 +161,12 @@ public final class TaskViewModel extends AndroidViewModel {
     private void clearCompletedTasksAndNotify() {
         taskRepository.clearCompletedTasks();
         //snackbarMessage.onNext(R.string.completed_tasks_cleared);
+    }
+
+    private Observable<List<TaskItem>> getTaskItems() {
+        return taskRepository.getTasks().flatMap(tasks ->
+                Observable.fromIterable(tasks).map(TaskItem::new).toList().toObservable()
+        );
     }
 
 }

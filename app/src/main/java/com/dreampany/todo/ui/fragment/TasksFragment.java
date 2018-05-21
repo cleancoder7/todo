@@ -68,7 +68,7 @@ public class TasksFragment extends BaseMenuFragment implements
         setTitle(R.string.title_home);
         initView();
         initRecycler();
-
+        viewModel.loadTaskItems();
     }
 
     @Override
