@@ -2,7 +2,6 @@ package com.dreampany.todo.vm;
 
 import android.app.Activity;
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,26 +10,23 @@ import android.support.annotation.StringRes;
 
 import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.enums.Filter;
-import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
+import com.dreampany.todo.ui.model.UiTask;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.BehaviorSubject;
 import timber.log.Timber;
 
@@ -41,7 +37,7 @@ import timber.log.Timber;
  * hawladar.roman@bjitgroup.com
  */
 
-public final class TasksViewModel extends BaseViewModel {
+public final class TasksViewModel extends BaseViewModel<UiTask<? extends Task>> {
 
     private static final String KEY_FILTER = "filter";
     @NonNull
@@ -51,7 +47,6 @@ public final class TasksViewModel extends BaseViewModel {
     private final BehaviorSubject<Filter> filter;
     @NonNull
     private final SingleLiveEvent<Void> addNewTaskEvent;
-
 
     @Inject
     public TasksViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
@@ -96,7 +91,7 @@ public final class TasksViewModel extends BaseViewModel {
         }
     }
 
-    @NonNull
+/*    @NonNull
     private Boolean shouldFilterTask(Task task, Filter filter) {
         switch (filter) {
             case ACTIVE:
@@ -107,7 +102,7 @@ public final class TasksViewModel extends BaseViewModel {
             default:
                 return true;
         }
-    }
+    }*/
 
     @StringRes
     public int getFilterRes(Filter filter) {

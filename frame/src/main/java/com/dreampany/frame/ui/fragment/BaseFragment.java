@@ -114,11 +114,11 @@ public abstract class BaseFragment extends DaggerFragment {
         return true;
     }
 
-    protected Task getCurrentTask(boolean freshTask) {
+    protected <T extends Task> T getCurrentTask(boolean freshTask) {
         if (currentTask == null || freshTask) {
             currentTask = getIntentValue(Task.class.getSimpleName());
         }
-        return currentTask;
+        return (T) currentTask;
     }
 
     protected <T> T getIntentValue(String key) {

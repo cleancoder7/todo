@@ -15,7 +15,6 @@ public abstract class Task<T extends BaseParcel> extends Base {
     protected T input;
 
     protected Task() {
-
     }
 
     protected Task(Parcel in) {

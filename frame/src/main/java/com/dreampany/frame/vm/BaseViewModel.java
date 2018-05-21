@@ -3,6 +3,7 @@ package com.dreampany.frame.vm;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.dreampany.frame.rx.RxFacade;
 
@@ -16,7 +17,7 @@ import io.reactivex.subjects.BehaviorSubject;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class BaseViewModel extends AndroidViewModel {
+public class BaseViewModel<T> extends AndroidViewModel {
 
     @NonNull
     protected final RxFacade facade;
@@ -27,6 +28,8 @@ public class BaseViewModel extends AndroidViewModel {
     protected final BehaviorSubject<String> title;
     @NonNull
     protected final BehaviorSubject<String> subtitle;
+    @Nullable
+    protected T t;
 
     protected BaseViewModel(@NonNull Application application, @NonNull RxFacade facade) {
         super(application);
@@ -54,5 +57,14 @@ public class BaseViewModel extends AndroidViewModel {
     @NonNull
     public Observable<String> getSubtitle() {
         return subtitle.hide();
+    }
+
+    public void setT(@Nullable T t) {
+        this.t = t;
+    }
+
+    @Nullable
+    public T getT() {
+        return t;
     }
 }

@@ -169,11 +169,11 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         return "base";
     }*/
 
-    protected Task getCurrentTask(boolean freshTask) {
+    protected <T extends Task> T getCurrentTask(boolean freshTask) {
         if (currentTask == null || freshTask) {
             currentTask = getIntentValue(Task.class.getSimpleName());
         }
-        return currentTask;
+        return (T) currentTask;
     }
 
     protected <T> T getIntentValue(String key) {

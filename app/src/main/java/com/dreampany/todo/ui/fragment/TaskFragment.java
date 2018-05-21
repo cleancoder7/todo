@@ -76,7 +76,7 @@ public class TaskFragment extends BaseMenuFragment
         Timber.i("EditTaskViewModel - %s", viewModel);
         binding.fab.setOnClickListener(this);
 
-        viewModel.getResponse().observe(this, this::processResponse);*/
+        viewModel.getLiveResponse().observe(this, this::processResponse);*/
     }
 
     private void saveTask() {

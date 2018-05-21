@@ -15,7 +15,6 @@ import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
 import com.dreampany.todo.databinding.FragmentEditTaskBinding;
 import com.dreampany.todo.ui.model.TaskItem;
-import com.dreampany.todo.ui.model.UiTask;
 import com.dreampany.todo.vm.EditTaskViewModel;
 
 import javax.inject.Inject;
@@ -55,9 +54,6 @@ public class EditTaskFragment extends BaseMenuFragment
 
     @Override
     protected void onStartUi(Bundle state) {
-        UiTask task = (UiTask) getCurrentTask(false);
-
-        setTitle(R.string.title_home);
         initView();
         viewModel.loadTaskItem();
     }
@@ -82,7 +78,7 @@ public class EditTaskFragment extends BaseMenuFragment
         Timber.i("EditTaskViewModel - %s", viewModel);
         binding.fab.setOnClickListener(this);
 
-        viewModel.getResponse().observe(this, this::processResponse);
+        viewModel.getLiveResponse().observe(this, this::processResponse);
     }
 
     private void saveTask() {

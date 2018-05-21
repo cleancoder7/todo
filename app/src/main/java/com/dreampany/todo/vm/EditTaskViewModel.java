@@ -11,6 +11,7 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
+import com.dreampany.todo.ui.model.UiTask;
 
 import javax.inject.Inject;
 
@@ -24,28 +25,24 @@ import timber.log.Timber;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class EditTaskViewModel extends BaseViewModel {
+public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
 
     @NonNull
     private final TaskRepository taskRepository;
-    private Task task;
-    private final MutableLiveData<Response<TaskItem>> response;
+    @NonNull
+    private final MutableLiveData<Response<TaskItem>> liveResponse;
 
     @Inject
-    public EditTaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
+    EditTaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
         super(application, facade);
         this.taskRepository = taskRepository;
-        response = new MutableLiveData<>();
+        liveResponse = new MutableLiveData<>();
         Timber.i("TaskRepository %s", taskRepository);
     }
 
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
     @NonNull
-    public MutableLiveData<Response<TaskItem>> getResponse() {
-        return response;
+    public MutableLiveData<Response<TaskItem>> getLiveResponse() {
+        return liveResponse;
     }
 
     public void loadTaskItem() {
@@ -54,24 +51,25 @@ public class EditTaskViewModel extends BaseViewModel {
                 .observeOn(facade.ui())
                 .subscribe(
                         item -> {
-                            response.setValue(Response.success(Kind.READ, item));
+                            liveResponse.setValue(Response.success(Kind.READ, item));
                         }
                         , throwable -> Response.error(Kind.READ, throwable.getMessage()));
         disposables.add(disposable);
     }
 
     private Observable<TaskItem> getTaskItem() {
-        if (isNewTask()) {
-            return Observable.empty();
+        if (hasTask()) {
+            return taskRepository
+                    .getTask(getT().getInput().getId())
+                    .map(this::restoreTask)
+                    .map(TaskItem::new);
         }
-        return taskRepository
-                .getTask(task.getId())
-                .map(this::restoreTask)
-                .map(TaskItem::new);
+        return Observable.empty();
     }
 
-    private boolean isNewTask() {
-        return task == null;
+    private boolean hasTask() {
+        Task task = getTask();
+        return (task != null);
     }
 
     public void saveTask(String title, String description) {
@@ -81,24 +79,39 @@ public class EditTaskViewModel extends BaseViewModel {
                 .observeOn(facade.ui())
                 .subscribe(
                         () -> {
-                            response.setValue(Response.success(Kind.WRITE, null));
+                            liveResponse.setValue(Response.success(Kind.WRITE, null));
                         },
                         throwable -> {
-                            response.setValue(Response.error(Kind.WRITE, throwable.getMessage()));
+                            liveResponse.setValue(Response.error(Kind.WRITE, throwable.getMessage()));
                         }
                 );
         disposables.add(disposable);
     }
 
     private Task restoreTask(Task task) {
-        String title = this.task.getTitle() != null ? this.task.getTitle() : task.getTitle();
-        String description = this.task.getDescription() != null ? this.task.getDescription() : task.getDescription();
+        String title = null, description = null;
+        Task currentTask = getTask();
+        if (currentTask != null) {
+            if (currentTask.getTitle() != null) {
+                title = currentTask.getTitle();
+            }
+            if (currentTask.getDescription() != null) {
+                description = currentTask.getDescription();
+            }
+        }
+        if (title != null) {
+            title = task.getTitle();
+        }
+        if (description != null) {
+            description = task.getDescription();
+        }
         return new Task(title, description);
     }
 
     private Completable createTask(String title, String description) {
-        if (isNewTask()) {
-            task = new Task(title, description);
+/*        if (hasTask()) {
+            Task task = new Task(title, description);
+            getT().setInput(task);
             if (task.isEmpty()) {
                 return Completable.complete();
             }
@@ -106,6 +119,15 @@ public class EditTaskViewModel extends BaseViewModel {
             task.setTitle(title).setDescription(description);
             task.setTime(System.currentTimeMillis());
         }
-        return taskRepository.saveTask(task);
+        return taskRepository.saveTask(task);*/
+        return Completable.complete();
+    }
+
+    private Task getTask() {
+        UiTask<Task> uiTask = getT();
+        if (uiTask != null) {
+            return uiTask.getInput();
+        }
+        return null;
     }
 }
