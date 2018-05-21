@@ -20,6 +20,7 @@ import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -50,7 +51,7 @@ public final class TaskViewModel extends AndroidViewModel {
     @NonNull
     private final CompositeDisposable disposables;
 
-    private final MutableLiveData<Response<List<TaskItem>>> response;
+    private final MutableLiveData<Response<List<TaskItem>>> liveResponse;
 
     @NonNull
     private final BehaviorSubject<Filter> filter;
@@ -65,7 +66,7 @@ public final class TaskViewModel extends AndroidViewModel {
         this.taskRepository = taskRepository;
         Timber.i("TaskRepository %s", taskRepository);
         disposables = new CompositeDisposable();
-        response = new MutableLiveData<>();
+        liveResponse = new MutableLiveData<>();
         filter = BehaviorSubject.createDefault(Filter.ALL);
         addNewTaskEvent = new SingleLiveEvent<>();
     }
@@ -75,8 +76,8 @@ public final class TaskViewModel extends AndroidViewModel {
         disposables.clear();
     }
 
-    public MutableLiveData<Response<List<TaskItem>>> getResponse() {
-        return response;
+    public MutableLiveData<Response<List<TaskItem>>> getLiveResponse() {
+        return liveResponse;
     }
 
     @NonNull
@@ -86,11 +87,13 @@ public final class TaskViewModel extends AndroidViewModel {
 
     public void loadTaskItems() {
         Disposable disposable = getTaskItems()
+                .onErrorReturn(throwable -> Response.error(Kind.READ, throwable.getMessage()))
+                .startWith(Response.loading(Kind.READ))
                 .subscribeOn(facade.io())
                 .observeOn(facade.ui())
                 .subscribe(
-                        items -> {
-                            response.setValue(Response.success(Kind.READ, items));
+                        response -> {
+                            liveResponse.setValue(response);
                         },
                         throwable -> Response.error(Kind.READ, throwable.getMessage()));
         disposables.add(disposable);
@@ -162,10 +165,10 @@ public final class TaskViewModel extends AndroidViewModel {
         //snackbarMessage.onNext(R.string.completed_tasks_cleared);
     }
 
-    private Observable<List<TaskItem>> getTaskItems() {
-        return taskRepository.getTasks().flatMap(tasks ->
-                Observable.fromIterable(tasks).map(TaskItem::new).toList().toObservable()
-        );
+    private Observable<Response<List<TaskItem>>> getTaskItems() {
+        return taskRepository.getTasks()
+                .flatMap(tasks ->
+                        Observable.fromIterable(tasks).map(TaskItem::new).toList().toObservable()
+                ).map(items -> Response.success(Kind.READ, items));
     }
-
 }

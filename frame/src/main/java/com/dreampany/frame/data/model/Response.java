@@ -15,7 +15,6 @@ import com.google.common.base.Objects;
 
 public class Response<T> {
 
-
     @NonNull
     public final Kind kind;
 
@@ -67,8 +66,8 @@ public class Response<T> {
                 '}';
     }
 
-    public static <T> Response<T> loading(@NonNull Kind kind, @Nullable T data) {
-        return new Response<>(kind, Status.READING, null, data);
+    public static <T> Response<T> loading(@NonNull Kind kind) {
+        return new Response<>(kind, Status.READING, null, null);
     }
 
     public static <T> Response<T> error(Kind kind, String message) {

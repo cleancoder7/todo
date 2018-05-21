@@ -18,7 +18,7 @@ import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.model.Task;
-import com.dreampany.todo.databinding.FragmentHomeBinding;
+import com.dreampany.todo.databinding.FragmentTasksBinding;
 import com.dreampany.todo.ui.activity.ToolsActivity;
 import com.dreampany.todo.ui.adapter.TaskAdapter;
 import com.dreampany.todo.ui.enums.UiSubtype;
@@ -43,7 +43,7 @@ public class TasksFragment extends BaseMenuFragment implements
 
     private static final String TAG = TasksFragment.class.getSimpleName();
 
-    private FragmentHomeBinding binding;
+    private FragmentTasksBinding binding;
     private TaskAdapter adapter;
     private final int offset = 4;
 
@@ -58,12 +58,12 @@ public class TasksFragment extends BaseMenuFragment implements
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_tasks;
     }
 
     @Override
     protected int getMenuId() {
-        return R.menu.menu_fragment_home;
+        return R.menu.menu_fragment_tasks;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class TasksFragment extends BaseMenuFragment implements
     }
 
     private void initView() {
-        binding = (FragmentHomeBinding) super.binding;
+        binding = (FragmentTasksBinding) super.binding;
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         binding.fab.setOnClickListener(this);
@@ -121,7 +121,7 @@ public class TasksFragment extends BaseMenuFragment implements
         viewModel.getAddNewTaskEvent().observe(this, voidParam -> {
             openAddTaskUi();
         });
-        viewModel.getResponse().observe(this, this::processResponse);
+        viewModel.getLiveResponse().observe(this, this::processResponse);
     }
 
     private void initRecycler() {
@@ -161,21 +161,24 @@ public class TasksFragment extends BaseMenuFragment implements
     private void processResponse(Response<List<TaskItem>> response) {
         switch (response.status) {
             case READING:
-                //renderLoadingState();
+                binding.stateful.showProgress();
                 Timber.i("READING");
                 break;
 
             case SUCCESS:
+                binding.stateful.showContent();
                 //renderDataState(response.data);
                 Timber.i("SUCCESS");
                 break;
 
             case ERROR:
+                binding.stateful.showEmpty();
                 //renderErrorState(response.error);
                 Timber.i("ERROR");
                 break;
 
             case EMPTY:
+                binding.stateful.showEmpty();
                 //renderErrorState(response.error);
                 Timber.i("EMPTY");
                 break;
