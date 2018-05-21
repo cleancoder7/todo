@@ -152,4 +152,7 @@ dependencies {
 
     //reactive network
     api 'com.github.pwittchen:reactivenetwork-rx2:0.12.3'
+
+    //rich editor
+    api 'com.github.irshulx:laser-native-editor:2.1.0'
 }
