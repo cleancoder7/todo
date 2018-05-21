@@ -12,7 +12,7 @@ import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
 import com.dreampany.todo.ui.model.TaskItem;
-import com.dreampany.todo.vm.TaskViewModel;
+import com.dreampany.todo.vm.TasksViewModel;
 
 import javax.inject.Inject;
 
@@ -33,7 +33,7 @@ public class TaskFragment extends BaseMenuFragment
     @Inject
     ViewModelProvider.Factory factory;
     @NonNull
-    private TaskViewModel viewModel;
+    private TasksViewModel viewModel;
 
 
     @Inject
@@ -54,7 +54,6 @@ public class TaskFragment extends BaseMenuFragment
     protected void onStartUi(Bundle state) {
         setTitle(R.string.title_home);
         initView();
-
     }
 
     @Override
@@ -73,7 +72,7 @@ public class TaskFragment extends BaseMenuFragment
     private void initView() {
        // binding = (FragmentTaskBinding) super.binding;
 /*        binding.setLifecycleOwner(this);
-        viewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel.class);
         Timber.i("EditTaskViewModel - %s", viewModel);
         binding.fab.setOnClickListener(this);
 

@@ -25,7 +25,7 @@ import com.dreampany.todo.ui.enums.UiSubtype;
 import com.dreampany.todo.ui.enums.UiType;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
-import com.dreampany.todo.vm.TaskViewModel;
+import com.dreampany.todo.vm.TasksViewModel;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class TasksFragment extends BaseMenuFragment implements
     @Inject
     ViewModelProvider.Factory factory;
     @NonNull
-    private TaskViewModel viewModel;
+    private TasksViewModel viewModel;
 
     @Inject
     public TasksFragment() {
@@ -115,7 +115,7 @@ public class TasksFragment extends BaseMenuFragment implements
     private void initView() {
         binding = (FragmentTasksBinding) super.binding;
         binding.setLifecycleOwner(this);
-        viewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel.class);
         binding.fab.setOnClickListener(this);
         ViewUtil.setSwipe(binding.swipeRefresh, this);
         viewModel.getAddNewTaskEvent().observe(this, voidParam -> {
