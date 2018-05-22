@@ -1,6 +1,7 @@
 package com.dreampany.frame.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.data.util.AndroidUtil
 import com.dreampany.frame.data.util.TextUtil
 import com.dreampany.frame.ui.activity.BaseActivity
+import java.io.Serializable
 
 
 /**
@@ -156,5 +158,25 @@ abstract class BaseFragmentKt : Fragment() {
         if (BaseActivity::class.java.isInstance(activity)) {
             (activity as BaseActivity).setSubtitle(subtitle)
         }
+    }
+
+    protected fun openActivity(clazz: Class<*>) {
+        startActivity(Intent(getParent(), clazz))
+    }
+
+    protected fun openActivityForResult(clazz: Class<*>, requestCode: Int) {
+        startActivityForResult(Intent(getParent(), clazz), requestCode)
+    }
+
+    protected fun openActivityParcelable(clazz: Class<*>, task: Task<*>) {
+        val bundle = Intent(getParent(), clazz)
+        bundle.putExtra(Task::class.java.simpleName, task as Parcelable)
+        startActivity(bundle)
+    }
+
+    protected fun openActivitySerializable(clazz: Class<*>, task: Task<*>) {
+        val bundle = Intent(getParent(), clazz)
+        bundle.putExtra(Task::class.java.simpleName, task as Serializable)
+        startActivity(bundle)
     }
 }
