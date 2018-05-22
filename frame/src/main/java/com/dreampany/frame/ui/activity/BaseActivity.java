@@ -53,7 +53,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     protected abstract void onStopUi();
 
-
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         Aesthetic.attach(this);
@@ -61,51 +60,9 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         int layoutId = getLayoutId();
         if (layoutId != 0) {
-            if (isFullScreen()) {
-                requestWindowFeature(Window.FEATURE_NO_TITLE);
-                BarUtil.hide(this);
-            } else {
-                BarUtil.show(this);
-            }
-
-            binding = DataBindingUtil.setContentView(this, layoutId);
-
-            Toolbar toolbar = findViewById(getToolbarId());
-            if (toolbar != null) {
-                if (isFullScreen()) {
-                    if (toolbar.isShown()) {
-                        toolbar.setVisibility(View.GONE);
-                    }
-                } else {
-                    if (!toolbar.isShown()) {
-                        toolbar.setVisibility(View.VISIBLE);
-                    }
-                    setSupportActionBar(toolbar);
-                    if (isHomeUp()) {
-                        ActionBar actionBar = getSupportActionBar();
-                        if (actionBar != null) {
-                            actionBar.setDisplayHomeAsUpEnabled(true);
-                            actionBar.setHomeButtonEnabled(true);
-                        }
-                    }
-                }
-            }
-
-            //if (Aesthetic.isFirstTime()) {
-            Aesthetic.get()
-                    .colorPrimaryRes(R.color.colorPrimary)
-                    .colorPrimaryDarkRes(R.color.colorPrimaryDark)
-                    .colorAccentRes(R.color.colorAccent)
-                    .colorStatusBarAuto()
-                    .colorNavigationBarAuto()
-                    .textColorPrimaryRes(android.R.color.black)
-                    .textColorPrimaryInverseRes(android.R.color.white)
-                    .textColorSecondaryRes(R.color.material_grey500)
-                    .textColorSecondaryInverseRes(R.color.material_grey100)
-                    //.bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
-                    //.bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
-                    .apply();
-            //}
+            initLayout(layoutId);
+            initToolbar();
+            initTheme();
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState);
@@ -168,6 +125,57 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     public String key() {
         return "base";
     }*/
+
+    private void initLayout(int layoutId) {
+        if (isFullScreen()) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            BarUtil.hide(this);
+        } else {
+            BarUtil.show(this);
+        }
+        binding = DataBindingUtil.setContentView(this, layoutId);
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(getToolbarId());
+        if (toolbar != null) {
+            if (isFullScreen()) {
+                if (toolbar.isShown()) {
+                    toolbar.setVisibility(View.GONE);
+                }
+            } else {
+                if (!toolbar.isShown()) {
+                    toolbar.setVisibility(View.VISIBLE);
+                }
+                setSupportActionBar(toolbar);
+                if (isHomeUp()) {
+                    ActionBar actionBar = getSupportActionBar();
+                    if (actionBar != null) {
+                        actionBar.setDisplayHomeAsUpEnabled(true);
+                        actionBar.setHomeButtonEnabled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void initTheme() {
+        //if (Aesthetic.isFirstTime()) {
+        Aesthetic.get()
+                .colorPrimaryRes(R.color.colorPrimary)
+                .colorPrimaryDarkRes(R.color.colorPrimaryDark)
+                .colorAccentRes(R.color.colorAccent)
+                .colorStatusBarAuto()
+                .colorNavigationBarAuto()
+                .textColorPrimaryRes(android.R.color.black)
+                .textColorPrimaryInverseRes(android.R.color.white)
+                .textColorSecondaryRes(R.color.material_grey500)
+                .textColorSecondaryInverseRes(R.color.material_grey100)
+                //.bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
+                //.bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
+                .apply();
+        //}
+    }
 
     protected <T extends Task> T getCurrentTask(boolean freshTask) {
         if (currentTask == null || freshTask) {
