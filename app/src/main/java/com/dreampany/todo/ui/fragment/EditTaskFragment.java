@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 
 import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.data.util.ViewUtil;
 import com.dreampany.frame.injector.ActivityScoped;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.todo.R;
@@ -104,6 +105,14 @@ public class EditTaskFragment extends BaseMenuFragment
 
             case SUCCESS:
                 binding.stateful.showContent();
+                switch (response.kind) {
+                    case READ:
+                        updateUi(response.data);
+                        break;
+                    case WRITE:
+                        ViewUtil.showSnackbar(binding.editTitle, response.message);
+                        break;
+                }
                 Timber.i("SUCCESS");
                 break;
 
@@ -124,8 +133,5 @@ public class EditTaskFragment extends BaseMenuFragment
         binding.editDescription.setText(item.getItem().getDescription());
     }
 
-    private void showSnackbar(@StringRes int textId) {
-        Snackbar.make(binding.editTitle, textId, Snackbar.LENGTH_LONG).show();
-    }
 
 }
