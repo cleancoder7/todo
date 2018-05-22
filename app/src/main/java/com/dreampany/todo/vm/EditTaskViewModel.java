@@ -15,14 +15,11 @@ import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
 
-import java.util.concurrent.Callable;
-
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -42,7 +39,7 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         super(application, facade);
         this.taskRepository = taskRepository;
         liveResponse = new MutableLiveData<>();
-        Timber.i("TaskRepository %s", taskRepository);
+        Timber.v("TaskRepository %s", taskRepository);
     }
 
     @NonNull
@@ -98,8 +95,7 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
     }
 
     public void saveTask(String title, String description) {
-        Completable completable = createTask(title, description);
-        Disposable disposable = completable
+        Disposable disposable = createTask(title, description)
                 .subscribeOn(facade.io())
                 .observeOn(facade.ui())
                 .subscribe(
@@ -110,7 +106,7 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
                             liveResponse.setValue(Response.error(Kind.WRITE, throwable.getMessage()));
                         }
                 );
-        disposables.add(disposable);
+        addSubscription(disposable);
     }
 
     private Task restoreTask(Task task) {
@@ -134,18 +130,22 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
     }
 
     private Completable createTask(String title, String description) {
-/*        if (hasTask()) {
-            Task task = new Task(title, description);
-            getT().setInput(task);
+        Task task = getTask();
+        if (task == null) {
+            task = new Task(title, description);
             if (task.isEmpty()) {
                 return Completable.complete();
+            } else {
+                UiTask<Task> uiTask = getT();
+                if (uiTask != null) {
+                    uiTask.setInput(task);
+                }
             }
         } else {
             task.setTitle(title).setDescription(description);
             task.setTime(System.currentTimeMillis());
         }
-        return taskRepository.saveTask(task);*/
-        return Completable.complete();
+        return taskRepository.saveTask(task);
     }
 
     private Task getTask() {
