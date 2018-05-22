@@ -166,15 +166,24 @@ public final class TextUtil {
     }
 
     public static String getString(Context context, int resourceId) {
-        return context.getString(resourceId);
+        if (context != null && resourceId > 0) {
+            return context.getString(resourceId);
+        }
+        return null;
     }
 
     public static String getString(Context context, int resourceId, Object... formatArgs) {
-        return context.getString(resourceId, formatArgs);
+        if (context != null && resourceId > 0) {
+            return context.getString(resourceId, formatArgs);
+        }
+        return null;
     }
 
     public static String[] getStringArray(Context context, int arrayId) {
-        return context.getResources().getStringArray(arrayId);
+        if (context != null && arrayId > 0) {
+            return context.getResources().getStringArray(arrayId);
+        }
+        return null;
     }
 
     public static List<String> getStringList(Context context, int arrayId) {
@@ -185,9 +194,7 @@ public final class TextUtil {
         return String.valueOf(value);
     }
 
-
     public static String shuffle(String text) {
-
         List<Character> chars = new ArrayList<>(text.length());
 
         for (char ch : text.toCharArray()) {

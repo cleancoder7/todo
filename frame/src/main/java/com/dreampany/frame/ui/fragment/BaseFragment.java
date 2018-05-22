@@ -26,7 +26,7 @@ public abstract class BaseFragment extends DaggerFragment {
 
     protected ViewDataBinding binding;
     protected Task currentTask;
-    protected View view;
+    protected View currentView;
 
     protected int getLayoutId() {
         return 0;
@@ -49,23 +49,20 @@ public abstract class BaseFragment extends DaggerFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (view != null) {
-            if (view.getParent() != null) {
-                ((ViewGroup) view.getParent()).removeView(view);
+        if (currentView != null) {
+            if (currentView.getParent() != null) {
+                ((ViewGroup) currentView.getParent()).removeView(currentView);
             }
-            return view;
+            return currentView;
         }
-
         int layoutId = getLayoutId();
-
         if (layoutId != 0) {
             binding = DataBindingUtil.inflate(inflater, layoutId, container, false);
-            view = binding.getRoot();
+            currentView = binding.getRoot();
         } else {
-            view = super.onCreateView(inflater, container, savedInstanceState);
+            currentView = super.onCreateView(inflater, container, savedInstanceState);
         }
-        return view;
+        return currentView;
     }
 
     @Override
@@ -77,8 +74,8 @@ public abstract class BaseFragment extends DaggerFragment {
     @Override
     public void onDestroyView() {
         onStopUi();
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
+        if (currentView != null) {
+            ViewGroup parent = (ViewGroup) currentView.getParent();
             if (parent != null) {
                 parent.removeAllViews();
             }
@@ -142,17 +139,17 @@ public abstract class BaseFragment extends DaggerFragment {
     }
 
     protected void setTitle(int resId) {
-        if (resId <= 0) {
-            return;
+        Activity activity = getActivity();
+        if (BaseActivity.class.isInstance(activity)) {
+            ((BaseActivity) activity).setTitle(resId);
         }
-        setTitle(TextUtil.getString(getContext(), resId));
     }
 
     protected void setSubtitle(int resId) {
-        if (resId <= 0) {
-            return;
+        Activity activity = getActivity();
+        if (BaseActivity.class.isInstance(activity)) {
+            ((BaseActivity) activity).setSubtitle(resId);
         }
-        setSubtitle(TextUtil.getString(getContext(), resId));
     }
 
     protected void setTitle(String title) {

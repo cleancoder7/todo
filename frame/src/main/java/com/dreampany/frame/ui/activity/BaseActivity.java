@@ -18,6 +18,7 @@ import com.dreampany.frame.R;
 import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.data.util.BarUtil;
 import com.dreampany.frame.data.util.FragmentUtil;
+import com.dreampany.frame.data.util.TextUtil;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 
 import java.io.Serializable;
@@ -201,6 +202,14 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
 
     protected Bundle getBundle() {
         return getIntent().getExtras();
+    }
+
+    public void setTitle(int resId) {
+        setTitle(TextUtil.getString(this, resId));
+    }
+
+    public void setSubtitle(int resId) {
+        setSubtitle(TextUtil.getString(this, resId));
     }
 
     public void setTitle(String title) {
