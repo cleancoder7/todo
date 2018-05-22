@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.dreampany.frame.BuildConfig;
+import com.squareup.leakcanary.LeakCanary;
 
 import dagger.android.support.DaggerApplication;
 import timber.log.Timber;
@@ -28,6 +29,9 @@ public abstract class BaseApp extends DaggerApplication {
             setStrictMode();
         }
         super.onCreate();
+        if (!initLeakCanary()) {
+            return;
+        }
         if (isDebug()) {
             Timber.plant(new Timber.DebugTree());
         }
@@ -45,5 +49,15 @@ public abstract class BaseApp extends DaggerApplication {
                 .penaltyLog()
                 .penaltyDeath()
                 .build());
+    }
+
+    private boolean initLeakCanary() {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return false;
+        }
+        LeakCanary.install(this);
+        return true;
     }
 }

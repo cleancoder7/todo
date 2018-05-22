@@ -54,7 +54,8 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
                             liveResponse.setValue(Response.success(Kind.READ, item));
                         }
                         , throwable -> Response.error(Kind.READ, throwable.getMessage()));
-        disposables.add(disposable);
+
+        addSubscription(disposable);
     }
 
     private Observable<TaskItem> getTaskItem() {
