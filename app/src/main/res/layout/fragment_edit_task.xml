@@ -6,16 +6,23 @@
 
     <data>
 
-
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <!--        <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">-->
+
+        <cz.kinst.jakub.view.SimpleStatefulLayout
+            android:id="@+id/stateful"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            auto:emptyLayout="@layout/state_empty"
+            auto:offlineLayout="@layout/state_offline"
+            auto:progressLayout="@layout/state_progress">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,13 +44,14 @@
                 <EditText
                     android:id="@+id/editDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:layout_below="@id/editTitle"
+                    android:layout_height="wrap_content"
                     android:gravity="top"
-                    android:hint="@string/description" />
+                    android:hint="@string/description"
+                    android:minHeight="200dp" />
 
             </LinearLayout>
-        </ScrollView>
+            <!--        </ScrollView>-->
+        </cz.kinst.jakub.view.SimpleStatefulLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

@@ -98,22 +98,22 @@ public class EditTaskFragment extends BaseMenuFragment
     private void processResponse(Response<TaskItem> response) {
         switch (response.status) {
             case READING:
-                //renderLoadingState();
+                binding.stateful.showProgress();
                 Timber.i("READING");
                 break;
 
             case SUCCESS:
-                //renderDataState(response.data);
+                binding.stateful.showContent();
                 Timber.i("SUCCESS");
                 break;
 
             case ERROR:
-                //renderErrorState(response.error);
+                binding.stateful.showEmpty();
                 Timber.i("ERROR");
                 break;
 
             case EMPTY:
-                //renderErrorState(response.error);
+                binding.stateful.showEmpty();
                 Timber.i("EMPTY");
                 break;
         }
