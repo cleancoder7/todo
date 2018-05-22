@@ -21,17 +21,6 @@ import eu.davidea.viewholders.FlexibleViewHolder;
 
 public class SmartAdapter<T extends BaseItem> extends BindingFlexibleAdapter<T> {
 
-    public static class SmartViewHolder extends FlexibleViewHolder {
-
-        protected SmartViewHolder(View view, FlexibleAdapter adapter) {
-            super(view, adapter);
-        }
-
-        public Context getContext() {
-            return itemView.getContext();
-        }
-    }
-
     private View.OnClickListener clickListener;
     private View.OnLongClickListener longClickListener;
 
@@ -128,10 +117,22 @@ public class SmartAdapter<T extends BaseItem> extends BindingFlexibleAdapter<T> 
             List<Integer> positions = getSelectedPositions();
             List<T> items = new ArrayList<>(positions.size());
             for (int position : positions) {
-                items.add(getItem(position));
+                T item = getItem(position);
+                items.add(item);
             }
             return items;
         }
         return null;
+    }
+
+    public static class SmartViewHolder extends FlexibleViewHolder {
+
+        protected SmartViewHolder(View view, FlexibleAdapter adapter) {
+            super(view, adapter);
+        }
+
+        public Context getContext() {
+            return itemView.getContext();
+        }
     }
 }
