@@ -1,7 +1,7 @@
 package com.dreampany.todo.injector;
 
 import com.dreampany.frame.injector.ActivityScoped;
-import com.dreampany.todo.ui.activity.LaunchActivity;
+import com.dreampany.todo.ui.activity.LaunchActivityKt;
 import com.dreampany.todo.ui.activity.NavigationActivity;
 import com.dreampany.todo.ui.activity.ToolsActivity;
 
@@ -12,7 +12,7 @@ import dagger.android.ContributesAndroidInjector;
 abstract class ActivityModule {
     @ActivityScoped
     @ContributesAndroidInjector
-    abstract LaunchActivity launchActivity();
+    abstract LaunchActivityKt launchActivity();
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = {TasksModule.class, MoreModule.class})

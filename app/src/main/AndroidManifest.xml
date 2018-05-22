@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme.App">
 
         <activity
-            android:name=".ui.activity.LaunchActivity"
+            android:name=".ui.activity.LaunchActivityKt"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
             android:launchMode="singleTask">
             <intent-filter>
