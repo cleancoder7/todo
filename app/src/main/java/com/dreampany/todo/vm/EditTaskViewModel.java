@@ -53,8 +53,7 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
                 .observeOn(facade.ui())
                 .subscribe(
                         liveTitle::setValue
-                        , throwable -> liveResponse.setValue(Response.error(Kind.READ, throwable.getMessage())));
-
+                );
         addSubscription(disposable);
     }
 
@@ -67,7 +66,6 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
                             liveResponse.setValue(Response.success(Kind.READ, item));
                         }
                         , throwable -> liveResponse.setValue(Response.error(Kind.READ, throwable.getMessage())));
-
         addSubscription(disposable);
     }
 
@@ -80,18 +78,14 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
     }
 
     private Observable<TaskItem> getTaskItem() {
-        if (hasTask()) {
+        Task task = getTask();
+        if (task != null) {
             return taskRepository
-                    .getTask(getT().getInput().getId())
-                    .map(this::restoreTask)
+                    .getTask(task.getId())
+                    //.map(this::restoreTask)
                     .map(TaskItem::new);
         }
         return Observable.empty();
-    }
-
-    private boolean hasTask() {
-        Task task = getTask();
-        return (task != null);
     }
 
     public void saveTask(String title, String description) {
@@ -109,25 +103,26 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         addSubscription(disposable);
     }
 
-    private Task restoreTask(Task task) {
-        String title = null, description = null;
+/*    private Task restoreTask(Task task) {
+        *//*String title = null, description = null;*//*
         Task currentTask = getTask();
         if (currentTask != null) {
-            if (currentTask.getTitle() != null) {
+           // if ()
+*//*            if (currentTask.getTitle() != null) {
                 title = currentTask.getTitle();
             }
             if (currentTask.getDescription() != null) {
                 description = currentTask.getDescription();
-            }
+            }*//*
         }
-        if (title != null) {
+*//*        if (title != null) {
             title = task.getTitle();
         }
         if (description != null) {
             description = task.getDescription();
-        }
-        return new Task(title, description);
-    }
+        }*//*
+        return task;
+    }*/
 
     private Completable createTask(String title, String description) {
         Task task = getTask();
