@@ -29,8 +29,8 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     }
 
     @Override
-    protected int getNavigationViewId() {
-        return R.id.navigation_view;
+    protected int getNavViewId() {
+        return R.id.nav_view;
     }
 
     @Override

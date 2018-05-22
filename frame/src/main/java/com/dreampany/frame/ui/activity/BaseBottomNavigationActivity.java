@@ -8,9 +8,9 @@ import android.view.MenuItem;
 
 public abstract class BaseBottomNavigationActivity extends BaseMenuActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private int currentNavId;
+    private int currentNavigationId;
 
-    protected int getNavigationViewId() {
+    protected int getNavViewId() {
         return 0;
     }
 
@@ -25,7 +25,7 @@ public abstract class BaseBottomNavigationActivity extends BaseMenuActivity impl
         fireOnStartUi = false;
         super.onCreate(savedInstanceState);
 
-        final BottomNavigationView navigationView = findViewById(getNavigationViewId());
+        final BottomNavigationView navigationView = findViewById(getNavViewId());
         if (navigationView != null) {
             navigationView.setOnNavigationItemSelectedListener(this);
         }
@@ -36,19 +36,19 @@ public abstract class BaseBottomNavigationActivity extends BaseMenuActivity impl
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int targetNavigationId = item.getItemId();
-        if (targetNavigationId != currentNavId) {
+        if (targetNavigationId != currentNavigationId) {
             onNavigationItem(targetNavigationId);
-            currentNavId = targetNavigationId;
+            currentNavigationId = targetNavigationId;
             return true;
         }
         return false;
     }
 
-    public void setSelectedItem(final int navItemId) {
-        if (navItemId != 0) {
-            final BottomNavigationView navigationView = findViewById(getNavigationViewId());
+    public void setSelectedItem(final int navigationItemId) {
+        if (navigationItemId != 0) {
+            final BottomNavigationView navigationView = findViewById(getNavViewId());
             if (navigationView != null) {
-                navigationView.post(() -> navigationView.setSelectedItemId(navItemId));
+                navigationView.post(() -> navigationView.setSelectedItemId(navigationItemId));
             }
         }
     }

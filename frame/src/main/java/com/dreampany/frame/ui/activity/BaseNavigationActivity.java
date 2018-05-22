@@ -15,7 +15,7 @@ import com.dreampany.frame.R;
 
 public abstract class BaseNavigationActivity extends BaseMenuActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int currentNavId;
+    private int currentNavigationId;
     private ActionBarDrawerToggle toggle;
     private DrawerLayout drawerLayout;
 
@@ -39,7 +39,7 @@ public abstract class BaseNavigationActivity extends BaseMenuActivity implements
         return R.string.navigation_drawer_close;
     }
 
-    protected int getDefaultSelectedNavItemId() {
+    protected int getDefaultSelectedNavigationItemId() {
         return 0;
     }
 
@@ -57,6 +57,30 @@ public abstract class BaseNavigationActivity extends BaseMenuActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         fireOnStartUi = false;
         super.onCreate(savedInstanceState);
+        initToggle();
+        onStartUi(savedInstanceState);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!closeDrawer()) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        closeDrawer();
+        int targetNavId = item.getItemId();
+        if (targetNavId != currentNavigationId) {
+            onNavigationItem(targetNavId);
+            currentNavigationId = targetNavId;
+            return true;
+        }
+        return false;
+    }
+
+    private void initToggle() {
         if (toggle == null) {
             drawerLayout = findViewById(getDrawerLayoutId());
             Toolbar toolbar = findViewById(getToolbarId());
@@ -86,34 +110,14 @@ public abstract class BaseNavigationActivity extends BaseMenuActivity implements
             NavigationView navigationView = findViewById(getNavigationViewId());
             if (navigationView != null) {
                 navigationView.setNavigationItemSelectedListener(this);
-                navigationView.setCheckedItem(getDefaultSelectedNavItemId());
+                navigationView.setCheckedItem(getDefaultSelectedNavigationItemId());
 
-                Menu navMenu = navigationView.getMenu();
-                if (navMenu != null) {
-                    navMenu.performIdentifierAction(getDefaultSelectedNavItemId(), 0);
+                Menu menu = navigationView.getMenu();
+                if (menu != null) {
+                    menu.performIdentifierAction(getDefaultSelectedNavigationItemId(), 0);
                 }
             }
-            onStartUi(savedInstanceState);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!closeDrawer()) {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        closeDrawer();
-        int targetNavId = item.getItemId();
-        if (targetNavId != currentNavId) {
-            onNavigationItem(targetNavId);
-            currentNavId = targetNavId;
-            return true;
-        }
-        return false;
     }
 
     protected boolean closeDrawer() {

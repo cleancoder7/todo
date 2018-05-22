@@ -12,13 +12,13 @@ import android.view.MenuItem
  */
 abstract class BaseBottomNavigationActivityKt : BaseMenuActivityKt(), BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private var currentNavId: Int = 0
+    private var currentNavigationId: Int = 0
 
     open fun getNavigationViewId(): Int {
         return 0
     }
 
-    open fun getDefaultSelectedNavigationItemId(): Int {
+    open fun getDefaultSelectedNavItemId(): Int {
         return 0
     }
 
@@ -29,24 +29,24 @@ abstract class BaseBottomNavigationActivityKt : BaseMenuActivityKt(), BottomNavi
         super.onCreate(savedInstanceState)
         val navigationView = findViewById<BottomNavigationView>(getNavigationViewId())
         navigationView?.setOnNavigationItemSelectedListener(this)
-        setSelectedItem(getDefaultSelectedNavigationItemId())
+        setSelectedItem(getDefaultSelectedNavItemId())
         onStartUi(savedInstanceState)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val targetNavigationId = item.itemId
-        if (targetNavigationId != currentNavId) {
+        if (targetNavigationId != currentNavigationId) {
             onNavigationItem(targetNavigationId)
-            currentNavId = targetNavigationId
+            currentNavigationId = targetNavigationId
             return true
         }
         return false
     }
 
-    fun setSelectedItem(navItemId: Int) {
-        if (navItemId != 0) {
-            val navigationView = findViewById<BottomNavigationView>(getNavigationViewId())
-            navigationView?.post { navigationView.selectedItemId = navItemId }
+    fun setSelectedItem(navigationItemId: Int) {
+        if (navigationItemId != 0) {
+            val navView = findViewById<BottomNavigationView>(getNavigationViewId())
+            navView?.post { navView.selectedItemId = navigationItemId }
         }
     }
 }
