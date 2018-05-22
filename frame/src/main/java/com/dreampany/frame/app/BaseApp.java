@@ -28,11 +28,9 @@ public abstract class BaseApp extends DaggerApplication {
             setStrictMode();
         }
         super.onCreate();
-
         if (isDebug()) {
             Timber.plant(new Timber.DebugTree());
         }
-
         TypefaceProvider.registerDefaultIconSets();
     }
 
