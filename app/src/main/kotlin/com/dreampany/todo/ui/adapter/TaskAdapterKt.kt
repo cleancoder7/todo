@@ -1,6 +1,5 @@
 package com.dreampany.todo.ui.adapter
 
-import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.adapter.SmartAdapterKt
 import com.dreampany.todo.ui.model.TaskItem
 
