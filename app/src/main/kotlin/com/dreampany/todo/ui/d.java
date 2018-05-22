@@ -1,4 +1,4 @@
-package com.dreampany.todo;
+package com.dreampany.todo.ui;
 
 /**
  * Created by Hawladar Roman on 5/22/2018.

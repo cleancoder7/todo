@@ -1,4 +1,4 @@
-package com.dreampany.frame;
+package com.dreampany.frame.ui;
 
 /**
  * Created by Hawladar Roman on 5/22/2018.
