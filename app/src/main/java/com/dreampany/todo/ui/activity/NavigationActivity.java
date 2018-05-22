@@ -34,7 +34,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     }
 
     @Override
-    protected int getDefaultSelectedNavItemId() {
+    protected int getDefaultSelectedNavigationItemId() {
         return R.id.item_tasks;
     }
 

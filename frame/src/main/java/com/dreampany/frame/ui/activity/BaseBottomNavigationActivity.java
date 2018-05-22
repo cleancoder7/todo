@@ -14,7 +14,7 @@ public abstract class BaseBottomNavigationActivity extends BaseMenuActivity impl
         return 0;
     }
 
-    protected int getDefaultSelectedNavItemId() {
+    protected int getDefaultSelectedNavigationItemId() {
         return 0;
     }
 
@@ -29,16 +29,16 @@ public abstract class BaseBottomNavigationActivity extends BaseMenuActivity impl
         if (navigationView != null) {
             navigationView.setOnNavigationItemSelectedListener(this);
         }
-        setSelectedItem(getDefaultSelectedNavItemId());
+        setSelectedItem(getDefaultSelectedNavigationItemId());
         onStartUi(savedInstanceState);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int targetNavId = item.getItemId();
-        if (targetNavId != currentNavId) {
-            onNavigationItem(targetNavId);
-            currentNavId = targetNavId;
+        int targetNavigationId = item.getItemId();
+        if (targetNavigationId != currentNavId) {
+            onNavigationItem(targetNavigationId);
+            currentNavId = targetNavigationId;
             return true;
         }
         return false;
@@ -48,12 +48,7 @@ public abstract class BaseBottomNavigationActivity extends BaseMenuActivity impl
         if (navItemId != 0) {
             final BottomNavigationView navigationView = findViewById(getNavigationViewId());
             if (navigationView != null) {
-                navigationView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        navigationView.setSelectedItemId(navItemId);
-                    }
-                });
+                navigationView.post(() -> navigationView.setSelectedItemId(navItemId));
             }
         }
     }
