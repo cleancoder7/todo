@@ -66,7 +66,7 @@ public class Response<T> {
                 '}';
     }
 
-    public static <T> Response<T> loading(@NonNull Kind kind) {
+    public static <T> Response<T> reading(@NonNull Kind kind) {
         return new Response<>(kind, Status.READING, null, null);
     }
 
@@ -77,6 +77,10 @@ public class Response<T> {
     public static <T> Response<T> success(@NonNull Kind kind, @Nullable T data) {
         return new Response<>(kind, Status.SUCCESS, null, data);
     }
+
+/*    public static <T> Response<T> success(@NonNull Kind kind, @Nullable String message, @Nullable T data) {
+        return new Response<>(kind, Status.SUCCESS, message, data);
+    }*/
 
     public static <T> Response<T> empty(@NonNull Kind kind) {
         return new Response<>(kind, Status.EMPTY, null, null);

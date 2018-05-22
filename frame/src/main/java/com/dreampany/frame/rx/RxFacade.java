@@ -21,7 +21,7 @@ public class RxFacade {
         return Schedulers.io();
     }
 
-    public Scheduler computation() {
+    public Scheduler compute() {
         return Schedulers.computation();
     }
 

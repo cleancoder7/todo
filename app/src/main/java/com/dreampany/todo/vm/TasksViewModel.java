@@ -70,7 +70,7 @@ public final class TasksViewModel extends BaseViewModel<UiTask<? extends Task>> 
     public void loadTaskItems() {
         Disposable disposable = getTaskItems()
                 .onErrorReturn(throwable -> Response.error(Kind.READ, throwable.getMessage()))
-                .startWith(Response.loading(Kind.READ))
+                .startWith(Response.reading(Kind.READ))
                 .subscribeOn(facade.io())
                 .observeOn(facade.ui())
                 .subscribe(

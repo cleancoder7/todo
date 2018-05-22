@@ -79,7 +79,6 @@ public class EditTaskFragment extends BaseMenuFragment
         binding = (FragmentEditTaskBinding) super.binding;
         binding.setLifecycleOwner(this);
         viewModel = ViewModelProviders.of(this, factory).get(EditTaskViewModel.class);
-        Timber.i("EditTaskViewModel - %s", viewModel);
         binding.fab.setOnClickListener(this);
 
         viewModel.getLiveTitle().observe(this, this::processTitle);
@@ -98,7 +97,7 @@ public class EditTaskFragment extends BaseMenuFragment
         switch (response.status) {
             case READING:
                 binding.stateful.showProgress();
-                Timber.i("READING");
+                Timber.v("READING");
                 break;
 
             case SUCCESS:
@@ -108,20 +107,20 @@ public class EditTaskFragment extends BaseMenuFragment
                         updateUi(response.data);
                         break;
                     case WRITE:
-                        ViewUtil.showSnackbar(binding.editTitle, response.message);
+                        ViewUtil.showSnackbar(binding.editTitle, R.string.saved_task_message_successfully);
                         break;
                 }
-                Timber.i("SUCCESS");
+                Timber.v("SUCCESS");
                 break;
 
             case ERROR:
                 binding.stateful.showEmpty();
-                Timber.i("ERROR");
+                Timber.v("ERROR");
                 break;
 
             case EMPTY:
                 binding.stateful.showEmpty();
-                Timber.i("EMPTY");
+                Timber.v("EMPTY");
                 break;
         }
     }

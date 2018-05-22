@@ -63,7 +63,7 @@
             auto:borderWidth="0dp"
             auto:elevation="6dp"
             auto:pressedTranslationZ="12dp"
-            auto:srcCompat="@drawable/ic_add_black_24dp" />
+            auto:srcCompat="@drawable/ic_done_black_24dp" />
     </RelativeLayout>
 
 </layout>

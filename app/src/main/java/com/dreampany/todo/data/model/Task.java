@@ -32,7 +32,7 @@ public class Task extends Base {
 
     @Ignore
     public Task(@Nullable String title) {
-        this(UUID.randomUUID().toString(), title, null);
+        this(title, null);
     }
 
     @Ignore

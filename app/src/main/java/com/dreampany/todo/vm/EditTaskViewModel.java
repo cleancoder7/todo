@@ -34,6 +34,8 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
     @NonNull
     private final MutableLiveData<Response<TaskItem>> liveResponse;
 
+    private Task pendingTask;
+
     @Inject
     EditTaskViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
         super(application, facade);
@@ -92,8 +94,12 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         Disposable disposable = createTask(title, description)
                 .subscribeOn(facade.io())
                 .observeOn(facade.ui())
+                .doOnSubscribe(d -> liveResponse.setValue(Response.reading(Kind.WRITE)))
                 .subscribe(
                         () -> {
+                            cacheTask(pendingTask);
+                            pendingTask = null;
+                            loadTitle();
                             liveResponse.setValue(Response.success(Kind.WRITE, null));
                         },
                         throwable -> {
@@ -103,8 +109,8 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         addSubscription(disposable);
     }
 
-/*    private Task restoreTask(Task task) {
-        *//*String title = null, description = null;*//*
+    /*    private Task restoreTask(Task task) {
+     *//*String title = null, description = null;*//*
         Task currentTask = getTask();
         if (currentTask != null) {
            // if ()
@@ -125,22 +131,30 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
     }*/
 
     private Completable createTask(String title, String description) {
-        Task task = getTask();
-        if (task == null) {
-            task = new Task(title, description);
-            if (task.isEmpty()) {
+        if (!hasTask()) {
+            pendingTask = new Task(title, description);
+            if (pendingTask.isEmpty()) {
+                pendingTask = null;
                 return Completable.complete();
-            } else {
-                UiTask<Task> uiTask = getT();
-                if (uiTask != null) {
-                    uiTask.setInput(task);
-                }
             }
         } else {
-            task.setTitle(title).setDescription(description);
-            task.setTime(System.currentTimeMillis());
+            pendingTask = getTask();
+            pendingTask.setTitle(title).setDescription(description);
+            pendingTask.setTime(System.currentTimeMillis());
         }
-        return taskRepository.saveTask(task);
+        return taskRepository.saveTask(pendingTask);
+    }
+
+    private boolean hasTask() {
+        Task task = getTask();
+        return (task != null);
+    }
+
+    private void cacheTask(Task task) {
+        UiTask<Task> uiTask = getT();
+        if (uiTask != null) {
+            uiTask.setInput(task);
+        }
     }
 
     private Task getTask() {
