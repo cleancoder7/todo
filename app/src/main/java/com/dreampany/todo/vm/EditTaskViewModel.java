@@ -109,27 +109,6 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         addSubscription(disposable);
     }
 
-    /*    private Task restoreTask(Task task) {
-     *//*String title = null, description = null;*//*
-        Task currentTask = getTask();
-        if (currentTask != null) {
-           // if ()
-*//*            if (currentTask.getTitle() != null) {
-                title = currentTask.getTitle();
-            }
-            if (currentTask.getDescription() != null) {
-                description = currentTask.getDescription();
-            }*//*
-        }
-*//*        if (title != null) {
-            title = task.getTitle();
-        }
-        if (description != null) {
-            description = task.getDescription();
-        }*//*
-        return task;
-    }*/
-
     private Completable createTask(String title, String description) {
         if (!hasTask()) {
             pendingTask = new Task(title, description);

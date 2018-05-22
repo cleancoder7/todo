@@ -17,6 +17,7 @@ import com.dreampany.todo.databinding.FragmentEditTaskBinding;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
 import com.dreampany.todo.vm.EditTaskViewModel;
+import com.yinglan.keyboard.HideUtil;
 
 import javax.inject.Inject;
 
@@ -110,6 +111,7 @@ public class EditTaskFragment extends BaseMenuFragment
                         ViewUtil.showSnackbar(binding.editTitle, R.string.saved_task_message_successfully);
                         break;
                 }
+                HideUtil.hideSoftKeyboard(getParent());
                 Timber.v("SUCCESS");
                 break;
 
