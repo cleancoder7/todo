@@ -64,15 +64,15 @@ public class MoreItem extends BaseItem<Base, MoreItem.ViewHolder> implements IFl
         switch (type) {
             case APPS:
                 holder.icon.setImageResource(R.drawable.ic_apps_black_24dp);
-                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.title_more_apps));
+                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.more_apps));
                 break;
             case RATE_US:
                 holder.icon.setImageResource(R.drawable.ic_rate_review_black_24dp);
-                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.title_rate));
+                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.rate_us));
                 break;
             case ABOUT_US:
                 holder.icon.setImageResource(R.drawable.ic_info_black_24dp);
-                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.title_about));
+                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.about_us));
                 break;
             case FEEDBACK:
                 holder.icon.setImageResource(R.drawable.ic_feedback_black_24dp);
@@ -80,7 +80,7 @@ public class MoreItem extends BaseItem<Base, MoreItem.ViewHolder> implements IFl
                 break;
             case SETTINGS:
                 holder.icon.setImageResource(R.drawable.ic_settings_black_24dp);
-                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.title_settings));
+                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.settings));
                 break;
         }
     }

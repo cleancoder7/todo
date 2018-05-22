@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/title_new_items"
+                android:text="@string/new_items"
                 android:textColor="@color/material_white"
                 android:textSize="16sp"
                 auto:smart_font="@string/fontRobotoSlabTitle" />

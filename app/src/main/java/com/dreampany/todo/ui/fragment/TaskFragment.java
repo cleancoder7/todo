@@ -52,7 +52,7 @@ public class TaskFragment extends BaseMenuFragment
 
     @Override
     protected void onStartUi(Bundle state) {
-        setTitle(R.string.title_home);
+        setTitle(R.string.home);
         initView();
     }
 

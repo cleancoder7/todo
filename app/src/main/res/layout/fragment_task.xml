@@ -24,7 +24,7 @@
                     android:id="@+id/textTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title_title"
+                    android:hint="@string/title"
                     android:maxLines="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 

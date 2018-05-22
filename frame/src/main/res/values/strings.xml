@@ -1,18 +1,17 @@
 <resources>
     <string name="app_name">frame</string>
 
-    <string name="title_title">Title</string>
-    <string name="title_home">Home</string>
-    <string name="title_more">More</string>
-    <string name="title_tools">Tools</string>
+    <string name="title">Title</string>
+    <string name="home">Home</string>
+    <string name="more">More</string>
+    <string name="tools">Tools</string>
 
+    <string name="new_items">New Items</string>
 
-    <string name="title_new_items">New Items</string>
-
-    <string name="title_more_apps">More Apps</string>
+    <string name="more_apps">More Apps</string>
     <string name="title_feedback">Send Feedback</string>
-    <string name="title_settings">Settings</string>
-    <string name="title_about">About Us</string>
-    <string name="title_rate">Rate Us</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+    <string name="rate_us">Rate Us</string>
 
 </resources>

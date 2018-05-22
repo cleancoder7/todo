@@ -45,7 +45,7 @@ public class MoreFragment extends BaseMenuFragment implements
 
     @Override
     protected void onStartUi(Bundle state) {
-        setTitle(R.string.title_more);
+        setTitle(R.string.more);
         binding = (FragmentItemsBinding) super.binding;
         initRecycler();
         binding.getRoot().post(new Runnable() {
