@@ -6,18 +6,23 @@ import android.support.annotation.NonNull;
 
 import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.data.util.TextUtil;
 import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.todo.R;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
+
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -45,6 +50,17 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         return liveResponse;
     }
 
+    public void loadTitle() {
+        Disposable disposable = getTitle()
+                .subscribeOn(facade.io())
+                .observeOn(facade.ui())
+                .subscribe(
+                        liveTitle::setValue
+                        , throwable -> liveResponse.setValue(Response.error(Kind.READ, throwable.getMessage())));
+
+        addSubscription(disposable);
+    }
+
     public void loadTaskItem() {
         Disposable disposable = getTaskItem()
                 .subscribeOn(facade.io())
@@ -53,9 +69,17 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
                         item -> {
                             liveResponse.setValue(Response.success(Kind.READ, item));
                         }
-                        , throwable -> Response.error(Kind.READ, throwable.getMessage()));
+                        , throwable -> liveResponse.setValue(Response.error(Kind.READ, throwable.getMessage())));
 
         addSubscription(disposable);
+    }
+
+    private Observable<String> getTitle() {
+        return Observable.fromCallable(() -> {
+            Task task = getTask();
+            int resourceId = task == null ? R.string.add_task : R.string.edit_task;
+            return TextUtil.getString(getApplication(), resourceId);
+        });
     }
 
     private Observable<TaskItem> getTaskItem() {

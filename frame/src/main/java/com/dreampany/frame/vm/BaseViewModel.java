@@ -2,6 +2,7 @@ package com.dreampany.frame.vm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -25,9 +26,9 @@ public class BaseViewModel<T> extends AndroidViewModel {
     protected final CompositeDisposable disposables;
 
     @NonNull
-    protected final BehaviorSubject<String> title;
+    protected final MutableLiveData<String> liveTitle;
     @NonNull
-    protected final BehaviorSubject<String> subtitle;
+    protected final MutableLiveData<String> liveSubtitle;
     @Nullable
     protected T t;
 
@@ -35,8 +36,8 @@ public class BaseViewModel<T> extends AndroidViewModel {
         super(application);
         this.facade = facade;
         disposables = new CompositeDisposable();
-        title = BehaviorSubject.create();
-        subtitle = BehaviorSubject.create();
+        liveTitle = new MutableLiveData<>();
+        liveSubtitle = new MutableLiveData<>();
     }
 
     @Override
@@ -50,13 +51,13 @@ public class BaseViewModel<T> extends AndroidViewModel {
     }
 
     @NonNull
-    public Observable<String> getTitle() {
-        return title.hide();
+    public MutableLiveData<String> getLiveTitle() {
+        return liveTitle;
     }
 
     @NonNull
-    public Observable<String> getSubtitle() {
-        return subtitle.hide();
+    public MutableLiveData<String> getLiveSubtitle() {
+        return liveSubtitle;
     }
 
     public void setT(@Nullable T t) {
