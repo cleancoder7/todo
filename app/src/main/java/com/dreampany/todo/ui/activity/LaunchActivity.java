@@ -24,26 +24,18 @@ public class LaunchActivity extends BaseActivity {
 
     @Override
     protected void onStartUi(Bundle state) {
-
         RelativeLayout layout = findViewById(R.id.layout);
         final ShimmerLayout shimmer = findViewById(R.id.shimmer);
-
         FlowingGradientClass grad = new FlowingGradientClass();
         grad.setBackgroundResource(R.drawable.translate)
                 .onRelativeLayout(layout)
                 .setTransitionDuration(2000)
                 .start();
-
         shimmer.startShimmerAnimation();
-
-        AndroidUtil.getUiHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                shimmer.stopShimmerAnimation();
-                openActivity(NavigationActivity.class);
-                finish();
-
-            }
+        AndroidUtil.getUiHandler().postDelayed(() -> {
+            shimmer.stopShimmerAnimation();
+            openActivity(NavigationActivity.class);
+            finish();
         }, 2000L);
     }
 

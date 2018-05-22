@@ -97,7 +97,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
 /*        if (!beBackPressed()) {
