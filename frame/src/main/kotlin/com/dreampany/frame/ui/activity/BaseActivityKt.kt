@@ -61,7 +61,7 @@ abstract class BaseActivityKt : DaggerAppCompatActivity() {
         if (layoutId != 0) {
             initLayout(layoutId)
             initToolbar()
-            initTheme()
+            //initTheme()
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
@@ -70,11 +70,11 @@ abstract class BaseActivityKt : DaggerAppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Aesthetic.resume(this)
+        //Aesthetic.resume(this)
     }
 
     override fun onPause() {
-        Aesthetic.pause(this)
+        //Aesthetic.pause(this)
         super.onPause()
     }
 

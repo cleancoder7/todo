@@ -121,8 +121,8 @@ public class TasksFragment extends BaseMenuFragment implements
         viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel.class);
         binding.fab.setOnClickListener(this);
         ViewUtil.setSwipe(binding.swipeRefresh, this);
-        viewModel.getLiveNewTaskEvent().observe(this, this::openAddTaskUi);
-        viewModel.getLiveResponse().observe(this, this::processResponse);
+       // viewModel.getLiveNewTaskEvent().observe(this, this::openAddTaskUi);
+        //viewModel.getLiveResponse().observe(this, this::processResponse);
     }
 
     private void initRecycler() {

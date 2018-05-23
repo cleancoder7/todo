@@ -63,7 +63,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         if (layoutId != 0) {
             initLayout(layoutId);
             initToolbar();
-            initTheme();
+            //initTheme();
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState);
@@ -73,12 +73,12 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Aesthetic.resume(this);
+        //Aesthetic.resume(this);
     }
 
     @Override
     protected void onPause() {
-        Aesthetic.pause(this);
+        //Aesthetic.pause(this);
         super.onPause();
     }
 

@@ -12,8 +12,8 @@ idea {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 'android-P'
+    buildToolsVersion '28.0.0 rc2'
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 27
@@ -58,6 +58,7 @@ android {
 }
 
 dependencies {
+
     //library
     api fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -95,7 +96,6 @@ dependencies {
     kapt 'android.arch.lifecycle:compiler:1.1.1'
     api 'android.arch.lifecycle:extensions:1.1.1'
     api 'android.arch.lifecycle:runtime:1.1.1'
-
     kapt 'android.arch.persistence.room:compiler:1.1.0'
     api 'android.arch.persistence.room:runtime:1.1.0'
     api 'android.arch.persistence.room:rxjava2:1.1.0'
