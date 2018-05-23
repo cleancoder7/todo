@@ -58,6 +58,7 @@ android {
 }
 
 dependencies {
+
     //library
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 

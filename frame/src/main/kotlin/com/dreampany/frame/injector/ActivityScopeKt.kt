@@ -12,7 +12,7 @@ import javax.inject.Scope
  * dreampanymail@gmail.com
  */
 
-@Documented
+@MustBeDocumented
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
 annotation class ActivityScopeKt
