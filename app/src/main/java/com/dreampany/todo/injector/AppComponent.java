@@ -5,8 +5,6 @@ import android.app.Application;
 
 import com.dreampany.frame.injector.AppModule;
 import com.dreampany.todo.app.App;
-import com.dreampany.todo.app.AppKt;
-
 
 import javax.inject.Singleton;
 
@@ -19,8 +17,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AppModule.class,
-        BuildersModule.class,
         ActivityModule.class,
+        BuildersModule.class
 })
 public interface AppComponent extends AndroidInjector<App> {
 
