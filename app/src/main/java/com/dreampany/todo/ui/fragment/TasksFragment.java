@@ -68,9 +68,11 @@ public class TasksFragment extends BaseMenuFragment implements
 
     @Override
     protected void onStartUi(Bundle state) {
-        setTitle(R.string.home);
         initView();
         initRecycler();
+        UiTask<Task> uiTask = getCurrentTask(true);
+        viewModel.setT(uiTask);
+        viewModel.loadTitle();
         viewModel.loadTaskItems();
     }
 

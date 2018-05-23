@@ -1,7 +1,6 @@
 package com.dreampany.todo.vm;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
@@ -12,12 +11,12 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
+import com.dreampany.todo.ui.model.UiTask;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -26,7 +25,7 @@ import timber.log.Timber;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class TaskViewModel extends BaseViewModel {
+public class TaskViewModel extends BaseViewModel<UiTask<Task>> {
 
     @NonNull
     private final TaskRepository taskRepository;
@@ -39,6 +38,16 @@ public class TaskViewModel extends BaseViewModel {
         this.taskRepository = taskRepository;
         response = new MutableLiveData<>();
         Timber.i("TaskRepository %s", taskRepository);
+    }
+
+    @Override
+    protected Observable<String> getTitle() {
+        return null;
+    }
+
+    @Override
+    protected Observable<String> getSubtitle() {
+        return null;
     }
 
     public void setTask(Task task) {
@@ -110,4 +119,6 @@ public class TaskViewModel extends BaseViewModel {
         }
         return taskRepository.saveTask(task);
     }
+
+
 }

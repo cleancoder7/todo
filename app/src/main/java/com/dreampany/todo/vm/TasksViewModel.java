@@ -10,12 +10,13 @@ import android.support.annotation.StringRes;
 
 import com.dreampany.frame.data.enums.Kind;
 import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.data.model.Task;
+import com.dreampany.frame.data.util.TextUtil;
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.todo.R;
 import com.dreampany.todo.data.enums.Filter;
+import com.dreampany.todo.data.model.Task;
 import com.dreampany.todo.data.source.TaskRepository;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
@@ -28,7 +29,6 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
-import timber.log.Timber;
 
 
 /**
@@ -37,7 +37,7 @@ import timber.log.Timber;
  * hawladar.roman@bjitgroup.com
  */
 
-public final class TasksViewModel extends BaseViewModel<UiTask<? extends Task>> {
+public final class TasksViewModel extends BaseViewModel<UiTask<Task>> {
 
     private static final String KEY_FILTER = "filter";
     @NonNull
@@ -55,7 +55,19 @@ public final class TasksViewModel extends BaseViewModel<UiTask<? extends Task>> 
         liveResponse = new MutableLiveData<>();
         filter = BehaviorSubject.createDefault(Filter.ALL);
         addNewTaskEvent = new SingleLiveEvent<>();
-        Timber.i("TaskRepository %s", taskRepository);
+    }
+
+    @Override
+    protected Observable<String> getTitle() {
+        return Observable.fromCallable(() -> {
+            int resourceId = R.string.tasks;
+            return TextUtil.getString(getApplication(), resourceId);
+        });
+    }
+
+    @Override
+    protected Observable<String> getSubtitle() {
+        return Observable.empty();
     }
 
     public MutableLiveData<Response<List<TaskItem>>> getLiveResponse() {

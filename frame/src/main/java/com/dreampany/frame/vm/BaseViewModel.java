@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 
 import com.dreampany.frame.rx.RxFacade;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -29,6 +30,10 @@ public abstract class BaseViewModel<T> extends AndroidViewModel {
     protected final MutableLiveData<String> liveSubtitle;
     @Nullable
     protected T t;
+
+    protected abstract Observable<String> getTitle();
+
+    protected abstract Observable<String> getSubtitle();
 
     protected BaseViewModel(@NonNull Application application, @NonNull RxFacade facade) {
         super(application);
@@ -65,5 +70,15 @@ public abstract class BaseViewModel<T> extends AndroidViewModel {
     @Nullable
     public T getT() {
         return t;
+    }
+
+    public void loadTitle() {
+        Disposable disposable = getTitle()
+                .subscribeOn(facade.io())
+                .observeOn(facade.ui())
+                .subscribe(
+                        liveTitle::setValue
+                );
+        addSubscription(disposable);
     }
 }

@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 5/19/2018.
@@ -41,22 +40,25 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
         super(application, facade);
         this.taskRepository = taskRepository;
         liveResponse = new MutableLiveData<>();
-        Timber.v("TaskRepository %s", taskRepository);
+    }
+
+    @Override
+    protected Observable<String> getTitle() {
+        return Observable.fromCallable(() -> {
+            Task task = getTask();
+            int resourceId = task == null ? R.string.add_task : R.string.edit_task;
+            return TextUtil.getString(getApplication(), resourceId);
+        });
+    }
+
+    @Override
+    protected Observable<String> getSubtitle() {
+        return Observable.empty();
     }
 
     @NonNull
     public MutableLiveData<Response<TaskItem>> getLiveResponse() {
         return liveResponse;
-    }
-
-    public void loadTitle() {
-        Disposable disposable = getTitle()
-                .subscribeOn(facade.io())
-                .observeOn(facade.ui())
-                .subscribe(
-                        liveTitle::setValue
-                );
-        addSubscription(disposable);
     }
 
     public void loadTaskItem() {
@@ -69,14 +71,6 @@ public class EditTaskViewModel extends BaseViewModel<UiTask<Task>> {
                         }
                         , throwable -> liveResponse.setValue(Response.error(Kind.READ, throwable.getMessage())));
         addSubscription(disposable);
-    }
-
-    private Observable<String> getTitle() {
-        return Observable.fromCallable(() -> {
-            Task task = getTask();
-            int resourceId = task == null ? R.string.add_task : R.string.edit_task;
-            return TextUtil.getString(getApplication(), resourceId);
-        });
     }
 
     private Observable<TaskItem> getTaskItem() {
