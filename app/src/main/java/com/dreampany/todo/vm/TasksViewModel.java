@@ -46,7 +46,7 @@ public final class TasksViewModel extends BaseViewModel<UiTask<Task>> {
     @NonNull
     private final BehaviorSubject<Filter> filter;
     @NonNull
-    private final SingleLiveEvent<Void> addNewTaskEvent;
+    private final SingleLiveEvent<Void> liveNewTaskEvent;
 
     @Inject
     public TasksViewModel(@NonNull Application application, @NonNull RxFacade facade, @NonNull TaskRepository taskRepository) {
@@ -54,7 +54,7 @@ public final class TasksViewModel extends BaseViewModel<UiTask<Task>> {
         this.taskRepository = taskRepository;
         liveResponse = new MutableLiveData<>();
         filter = BehaviorSubject.createDefault(Filter.ALL);
-        addNewTaskEvent = new SingleLiveEvent<>();
+        liveNewTaskEvent = new SingleLiveEvent<>();
     }
 
     @Override
@@ -75,8 +75,8 @@ public final class TasksViewModel extends BaseViewModel<UiTask<Task>> {
     }
 
     @NonNull
-    public SingleLiveEvent<Void> getAddNewTaskEvent() {
-        return addNewTaskEvent;
+    public SingleLiveEvent<Void> getLiveNewTaskEvent() {
+        return liveNewTaskEvent;
     }
 
     public void loadTaskItems() {
@@ -93,7 +93,7 @@ public final class TasksViewModel extends BaseViewModel<UiTask<Task>> {
 
     @NonNull
     public void addNewTask() {
-        addNewTaskEvent.call();
+        liveNewTaskEvent.call();
     }
 
     public void handleActivityResult(int requestCode, int resultCode) {

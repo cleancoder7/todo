@@ -26,6 +26,7 @@ import com.dreampany.todo.ui.enums.UiType;
 import com.dreampany.todo.ui.model.TaskItem;
 import com.dreampany.todo.ui.model.UiTask;
 import com.dreampany.todo.vm.TasksViewModel;
+import com.yinglan.keyboard.HideUtil;
 
 import java.util.List;
 
@@ -120,7 +121,7 @@ public class TasksFragment extends BaseMenuFragment implements
         viewModel = ViewModelProviders.of(this, factory).get(TasksViewModel.class);
         binding.fab.setOnClickListener(this);
         ViewUtil.setSwipe(binding.swipeRefresh, this);
-        viewModel.getAddNewTaskEvent().observe(this, this::openAddTaskUi);
+        viewModel.getLiveNewTaskEvent().observe(this, this::openAddTaskUi);
         viewModel.getLiveResponse().observe(this, this::processResponse);
     }
 
@@ -162,26 +163,37 @@ public class TasksFragment extends BaseMenuFragment implements
         switch (response.status) {
             case READING:
                 binding.stateful.showProgress();
-                Timber.i("READING");
+                Timber.v("READING");
                 break;
 
             case SUCCESS:
                 binding.stateful.showContent();
-                //renderDataState(response.data);
-                Timber.i("SUCCESS");
+                switch (response.kind) {
+                    case READ:
+                        updateUi(response.data);
+                        break;
+                    case WRITE:
+                        //ViewUtil.showSnackbar(binding.editTitle, R.string.saved_task_message_successfully);
+                        break;
+                }
+                HideUtil.hideSoftKeyboard(getParent());
+                Timber.v("SUCCESS");
                 break;
 
             case ERROR:
                 binding.stateful.showEmpty();
-                //renderErrorState(response.error);
-                Timber.i("ERROR");
+                Timber.v("ERROR");
                 break;
 
             case EMPTY:
                 binding.stateful.showEmpty();
-                //renderErrorState(response.error);
-                Timber.i("EMPTY");
+                Timber.v("EMPTY");
                 break;
         }
+    }
+
+    private void updateUi(List<TaskItem> items) {
+        adapter.clear();
+        adapter.addItems(0, items);
     }
 }
