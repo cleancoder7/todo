@@ -1,8 +1,8 @@
 package com.dreampany.todo.app
 
-import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.app.BaseAppKt
-import com.dreampany.todo.injector.DaggerAppComponent
+import com.dreampany.todo.BuildConfig
+import com.dreampany.todo.injector.DaggerAppComponentKt
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
@@ -19,6 +19,6 @@ class AppKt : BaseAppKt() {
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().application(this).build()
+        return DaggerAppComponentKt.builder().application(this).build()
     }
 }

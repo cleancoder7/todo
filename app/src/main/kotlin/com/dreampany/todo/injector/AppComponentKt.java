@@ -4,9 +4,7 @@ package com.dreampany.todo.injector;
 import android.app.Application;
 
 import com.dreampany.frame.injector.AppModule;
-import com.dreampany.todo.app.App;
 import com.dreampany.todo.app.AppKt;
-
 
 import javax.inject.Singleton;
 
@@ -22,13 +20,13 @@ import dagger.android.support.AndroidSupportInjectionModule;
         BuildersModule.class,
         ActivityModule.class,
 })
-public interface AppComponent extends AndroidInjector<App> {
+public interface AppComponentKt extends AndroidInjector<AppKt> {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         Builder application(Application application);
 
-        AppComponent build();
+        AppComponentKt build();
     }
 }
