@@ -2,7 +2,7 @@ package com.dreampany.todo.ui.activity
 
 import android.os.Bundle
 import android.widget.RelativeLayout
-import com.dreampany.frame.data.util.AndroidUtil
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.ui.activity.BaseActivityKt
 import com.dreampany.todo.R
 import com.dynamitechetan.flowinggradient.FlowingGradientClass

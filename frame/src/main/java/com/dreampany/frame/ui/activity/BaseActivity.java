@@ -12,22 +12,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.dreampany.frame.R;
 import com.dreampany.frame.data.model.Task;
-import com.dreampany.frame.data.util.BarUtil;
-import com.dreampany.frame.data.util.FragmentUtil;
-import com.dreampany.frame.data.util.TextUtil;
+import com.dreampany.frame.util.BarUtil;
+import com.dreampany.frame.util.FragmentUtil;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.Serializable;
+import java.util.List;
 
 import dagger.Lazy;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-public abstract class BaseActivity extends DaggerAppCompatActivity {
+public abstract class BaseActivity extends DaggerAppCompatActivity
+        implements MultiplePermissionsListener, PermissionRequestErrorListener {
 
     protected ViewDataBinding binding;
     protected Task currentTask;
@@ -50,14 +60,21 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         return true;
     }
 
+    protected boolean isScreenOn() {
+        return false;
+    }
+
     protected abstract void onStartUi(Bundle state);
 
     protected abstract void onStopUi();
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        Aesthetic.attach(this);
+        //Aesthetic.attach(this);
         super.onCreate(savedInstanceState);
+        if (isScreenOn()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         int layoutId = getLayoutId();
         if (layoutId != 0) {
@@ -125,6 +142,21 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     public String key() {
         return "base";
     }*/
+
+    @Override
+    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+    }
+
+    @Override
+    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+    }
+
+    @Override
+    public void onError(DexterError error) {
+
+    }
 
     private void initLayout(int layoutId) {
         if (isFullScreen()) {
@@ -284,5 +316,14 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
         T currentFragment = FragmentUtil.commitFragment(this, fragment, parentId);
         setCurrentFragment(currentFragment);
         return currentFragment;
+    }
+
+    protected void checkPermissions(String... permissions) {
+        if (permissions != null) {
+            Dexter.withActivity(this)
+                    .withPermissions(
+                            permissions
+                    ).withListener(this).check();
+        }
     }
 }
