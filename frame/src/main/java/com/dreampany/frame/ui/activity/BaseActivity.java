@@ -321,9 +321,9 @@ public abstract class BaseActivity extends DaggerAppCompatActivity
     protected void checkPermissions(String... permissions) {
         if (permissions != null) {
             Dexter.withActivity(this)
-                    .withPermissions(
-                            permissions
-                    ).withListener(this).check();
+                    .withPermissions(permissions)
+                    .withListener(this)
+                    .check();
         }
     }
 }

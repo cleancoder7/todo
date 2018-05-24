@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.ui.activity.BaseActivity;
+import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.DexterError;
@@ -206,5 +207,14 @@ public abstract class BaseFragment extends DaggerFragment
         Intent bundle = new Intent(getParent(), clazz);
         bundle.putExtra(Task.class.getSimpleName(), (Serializable) task);
         startActivity(bundle);
+    }
+
+    protected void checkPermissions(String... permissions) {
+        if (permissions != null) {
+            Dexter.withActivity(getParent())
+                    .withPermissions(permissions)
+                    .withListener(this)
+                    .check();
+        }
     }
 }

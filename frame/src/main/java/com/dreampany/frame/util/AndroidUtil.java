@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.view.Display;
+import android.view.Surface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -270,5 +271,18 @@ public final class AndroidUtil {
                 imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
             }
         }).run();
+    }
+
+    public static int getScreenOrientation(Activity activity) {
+        switch (activity.getWindowManager().getDefaultDisplay().getRotation()) {
+            case Surface.ROTATION_270:
+                return 270;
+            case Surface.ROTATION_180:
+                return 180;
+            case Surface.ROTATION_90:
+                return 90;
+            default:
+                return 0;
+        }
     }
 }

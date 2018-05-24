@@ -17,6 +17,7 @@ import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.util.BarUtil
 import com.dreampany.frame.util.FragmentUtil
 import com.dreampany.frame.ui.fragment.BaseFragment
+import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.DexterError
@@ -288,5 +289,14 @@ abstract class BaseActivityKt : DaggerAppCompatActivity(), MultiplePermissionsLi
         val currentFragment = FragmentUtil.commitFragment(this, fragment, parentId)
         this.currentFragment = currentFragment
         return currentFragment
+    }
+
+    protected fun checkPermissions(vararg permissions: String) {
+        if (permissions != null) {
+            Dexter.withActivity(parent)
+                    .withPermissions(*permissions)
+                    .withListener(this)
+                    .check()
+        }
     }
 }

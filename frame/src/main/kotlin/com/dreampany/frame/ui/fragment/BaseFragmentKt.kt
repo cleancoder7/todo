@@ -14,6 +14,7 @@ import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.DexterError
@@ -196,5 +197,14 @@ abstract class BaseFragmentKt : Fragment(), MultiplePermissionsListener, Permiss
         val bundle = Intent(getParent(), clazz)
         bundle.putExtra(Task::class.java.simpleName, task as Serializable)
         startActivity(bundle)
+    }
+
+    protected fun checkPermissions(vararg permissions: String) {
+        if (permissions != null) {
+            Dexter.withActivity(getParent())
+                    .withPermissions(*permissions)
+                    .withListener(this)
+                    .check()
+        }
     }
 }
